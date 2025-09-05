@@ -6,7 +6,7 @@ export default function Registro() {
     <div>
       <header className="header">
         <div className="logo-container">
-          <img src="/img/users.png" alt="Foto de perfil" className="profile-pic" />
+          <img src="../../public/ftopf.jpg" alt="Foto de perfil" className="profile-pic" />
             <Link to="/">
           <span className="logo-text">SN-52</span>
             </Link>

@@ -7,7 +7,7 @@ export default function Login() {
       {/* Header */}
       <header className="header">
         <div className="profile">
-          <img src="/img/users.png" alt="Perfil" className="profile-img" />
+          <img src="../../public/ftopf.jpg" alt="Perfil" className="profile-img" />
             <Link to="/">
           <span className="profile-name">SN-52</span>
             </Link>
@@ -40,8 +40,8 @@ export default function Login() {
         </div>
 
         {/* Imágenes decorativas */}
-        <img src="/img/s2.png" className="decor-left" alt="" />
-        <img src="/img/s1.png" className="decor-right" alt="" />
+        <img src="../assets/Img/S1.png" alt="Decoración" className="decor-left" />
+        <img src="../assets/Img/S2.png" alt="Decoración" className="decor-right" />
       </main>
     </div>
   );

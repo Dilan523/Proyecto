@@ -1,109 +1,175 @@
-body {
+/* ==== RESET ==== */
+* {
   margin: 0;
-  background: #f5f8fa;
-  font-family: Arial, sans-serif;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
 }
+
+
+
+/* ==== CONTENEDOR GENERAL ==== */
+.login-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.profile {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+/* ==== HEADER ==== */
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: linear-gradient(90deg, #21b0a6 0%, #c4e3e1 100%);
-  padding: 10px 40px;
-}
-.profile {
-  display: flex;
-  align-items: center;
+  padding: 20px 40px;
+  background: #fff;
+  box-shadow: 0px 2px 8px rgba(0,0,0,0.1);
 }
 .profile-img {
-  width: 70px;
-  height: 70px;
+  width: 45px;
+  height: 45px;
   border-radius: 50%;
   object-fit: cover;
-  margin-right: 15px;
+  border: 2px solid #000;
 }
+
 .profile-name {
-  font-size: 1.5rem;
-  font-family: serif;
-  font-weight: bold;
-  text-decoration: underline;
-}
-.header-buttons .btn {
-  margin-left: 15px;
-  padding: 12px 28px;
-  font-size: 1.1rem;
-  border: none;
-  border-radius: 8px;
-  background: #fff;
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #000;
+  text-decoration: none;
   cursor: pointer;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
 }
-.btn:hover {
-background-color: #66d1cd;
-color: white;
-}
-.main-title {
-  font-size: 4rem;
-  font-family: serif;
-  font-weight: bold;
-  margin: 60px 0 30px 220px;
-}
-.login-box {
-  background: linear-gradient(135deg, #1de9b6 0%, #e0f7fa 100%);
-  padding: 40px 30px;
-  border-radius: 18px;
-  max-width: 600px;
-  margin: 0 auto 0 auto;
-  box-shadow: 0 0 30px rgba(0,0,0,0.08);
-}
-.login-box form {
+
+.header-buttons {
   display: flex;
-  flex-direction: column;
+  gap: 12px;
 }
-.login-box label {
-  margin: 15px 0 5px;
-  font-size: 1.1rem;
-}
-.login-box input {
-  padding: 12px;
-  margin-bottom: 10px;
-  border-radius: 8px;
+
+.btn {
+  background: #fff;
   border: 1px solid #ccc;
-  font-size: 1.1rem;
+  padding: 6px 16px;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s;
 }
+
+.btn:hover {
+  background: #000;
+  color: #8bdcb6;
+}
+
+/* ==== TITULO PRINCIPAL ==== */
+.main-title {
+  text-align: center;
+  margin: 40px 0 20px;
+  font-size: 3rem;
+  font-weight: bold;
+  color: #000;
+  font-family: "Playfair Display", serif;
+}
+
+/* ==== LOGIN BOX ==== */
+.login-box {
+  background: linear-gradient(to right, #00c9a7, #92fe9d);
+  padding: 30px 40px;
+  border-radius: 8px;
+  width: 320px;
+  margin: 0 auto;
+  box-shadow: 0px 8px 20px rgba(0,0,0,0.15);
+  text-align: left;
+}
+
+.login-box label {
+  display: block;
+  font-size: 0.95rem;
+  font-weight: 500;
+  margin-bottom: 6px;
+  color: #000;
+}
+
+.login-box input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 16px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  outline: none;
+}
+
+.login-box input:focus {
+  border-color: #00a884;
+  box-shadow: 0 0 6px rgba(0, 168, 132, 0.4);
+}
+
 .forgot-link {
-  color: #1976d2;
-  font-size: 1rem;
-  text-align: right;
+  display: block;
   margin-bottom: 18px;
-  text-decoration: underline;
+  font-size: 0.85rem;
+  color: #2c94d5;
+  text-align: right;
+  text-decoration: none;
 }
+
+.forgot-link:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
 .login-btn {
-    margin-left: 15px;
-    margin-right: 15px;
-    padding: 12px 28px;
-    font-size: 1.1rem;
-    border: none;
-    border-radius: 8px;
-    background: #66d1cd;
-    cursor: pointer;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  background: #000;
+  color: #fff;
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s;
 }
 
 .login-btn:hover {
-    background-color: #fff;
-    color: black;
+  background: #333;
 }
-.decor-left {
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  width: 420px;
-  z-index: -1;
-}
+
+/* ==== IMÁGENES DECORATIVAS ==== */
+.decor-left,
 .decor-right {
   position: absolute;
-  right: 0;
   bottom: 0;
-  width: 420px;
-  z-index: -1;
+  width: 220px;
+  pointer-events: none;
+  opacity: 0.95;
+}
+
+.decor-left {
+  left: 0;
+}
+
+.decor-right {
+  right: 0;
+}
+
+/* ==== RESPONSIVE ==== */
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    gap: 10px;
+    text-align: center;
+  }
+
+  .login-box {
+    width: 90%;
+  }
+
+  .decor-left,
+  .decor-right {
+    display: none;
+  }
 }
