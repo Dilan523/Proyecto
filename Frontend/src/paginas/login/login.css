@@ -1,175 +1,214 @@
-/* ==== RESET ==== */
-* {
+/* Asegura que el degradado de fondo cubra toda la ventana */
+html,
+body {
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
-  font-family: "Poppins", sans-serif;
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(135deg, #21b0a6 0%, #e0f7fa 100%);
+  font-family: Arial, sans-serif;
+  overflow: hidden; /* Evita barras de desplazamiento */
 }
 
-
-
-/* ==== CONTENEDOR GENERAL ==== */
+/* Contenedor principal para que ocupe todo */
 .login-container {
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
+}
+
+/* Main ocupa todo y elimina centrado forzado */
+.login-container main {
+  flex: 1;
+  width: 100%;
+  display: block; /* evita centrado flex */
+}
+
+/* ========== Contenedor general de la página ========== */
+.page-login {
+  width: 100%;
   min-height: 100vh;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  position: relative;
+  z-index: 1;
+  background: linear-gradient(135deg, #21b0a6 0%, #e0f7fa 100%);
 }
 
-.profile {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-/* ==== HEADER ==== */
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20px 40px;
-  background: #fff;
-  box-shadow: 0px 2px 8px rgba(0,0,0,0.1);
-}
-.profile-img {
-  width: 45px;
-  height: 45px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 2px solid #000;
+/* Ancho máximo centrado */
+.login-wrap {
+  width: 100%;
+  max-width: 1400px;
+  position: relative;
+  z-index: 2; /* mantiene todo el contenido encima del fondo decorativo */
 }
 
-.profile-name {
-  font-size: 1.3rem;
-  font-weight: 600;
-  color: #000;
-  text-decoration: none;
-  cursor: pointer;
+/* ========== Título arriba ========== */
+.login-header {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 38px;
+  /* El fondo se elimina automáticamente ya que la clase 'login-header' no tiene uno */
+  background: transparent; /* Asegura que no tenga fondo */
+  padding: 0; /* Asegura que no tenga relleno que pueda simular un fondo */
+  margin-left: -500px; /* Desplazar el título a la izquierda */
 }
 
-.header-buttons {
+.login-title {
+  font-family: serif;
+  font-size: 4rem;
+  font-weight: 700;
+  color: #222;
+  margin: 10px;
+  letter-spacing: 1px;
+}
+
+/* ========== Fila principal ========== */
+.login-row {
   display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 48px;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0 20px;
+  position: relative;
+  z-index: 2;
+}
+
+/* ========== Caja del formulario ========== */
+.login-box {
+  width: 550px;
+  max-width: 45%;
+  background: linear-gradient(135deg, #21b0a6 0%, #e0f7fa 100%);
+  padding: 34px 28px;
+  border-radius: 14px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  display: flex;
+  justify-content: center;
+  z-index: 3; /* más alto que las imágenes decorativas */
+}
+
+.login-form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
   gap: 12px;
 }
 
-.btn {
-  background: #fff;
-  border: 1px solid #ccc;
-  padding: 6px 16px;
-  border-radius: 4px;
-  font-size: 0.9rem;
-  cursor: pointer;
-  transition: all 0.3s;
+.login-form label {
+  font-size: 0.98rem;
+  color: #133;
 }
 
-.btn:hover {
-  background: #000;
-  color: #8bdcb6;
-}
-
-/* ==== TITULO PRINCIPAL ==== */
-.main-title {
-  text-align: center;
-  margin: 40px 0 20px;
-  font-size: 3rem;
-  font-weight: bold;
-  color: #000;
-  font-family: "Playfair Display", serif;
-}
-
-/* ==== LOGIN BOX ==== */
-.login-box {
-  background: linear-gradient(to right, #00c9a7, #92fe9d);
-  padding: 30px 40px;
+.login-form input {
+  padding: 12px 14px;
   border-radius: 8px;
-  width: 320px;
-  margin: 0 auto;
-  box-shadow: 0px 8px 20px rgba(0,0,0,0.15);
-  text-align: left;
-}
-
-.login-box label {
-  display: block;
-  font-size: 0.95rem;
-  font-weight: 500;
-  margin-bottom: 6px;
-  color: #000;
-}
-
-.login-box input {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 16px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  outline: none;
-}
-
-.login-box input:focus {
-  border-color: #00a884;
-  box-shadow: 0 0 6px rgba(0, 168, 132, 0.4);
+  border: 1px solid #d0d7da;
+  font-size: 1rem;
 }
 
 .forgot-link {
   display: block;
-  margin-bottom: 18px;
-  font-size: 0.85rem;
-  color: #2c94d5;
   text-align: right;
-  text-decoration: none;
-}
-
-.forgot-link:hover {
+  color: #178ea0;
+  font-size: 0.95rem;
+  margin-top: 6px;
   text-decoration: underline;
-  cursor: pointer;
 }
 
 .login-btn {
-  background: #000;
-  color: #fff;
-  width: 100%;
-  padding: 10px;
+  margin-top: 10px;
+  padding: 12px;
+  border-radius: 10px;
   border: none;
-  border-radius: 6px;
+  background: #fff;
+  color: #222;
+  font-weight: 700;
   cursor: pointer;
-  font-weight: 600;
-  transition: all 0.3s;
+  width: 100%;
+  box-shadow: 0 6px 18px rgba(34, 139, 139, 0.12);
 }
 
 .login-btn:hover {
-  background: #333;
+  background: #66d1cd;
+  color: black;
 }
 
-/* ==== IMÁGENES DECORATIVAS ==== */
-.decor-left,
-.decor-right {
+/* ========== Decoraciones ========== */
+/* s5 y s6 pegadas abajo izquierda */
+.decor-img-1 {
   position: absolute;
-  bottom: 0;
-  width: 220px;
-  pointer-events: none;
-  opacity: 0.95;
-}
-
-.decor-left {
   left: 0;
+  top: 50%;
+  transform: translateY(-50%) translateX(-200px); /* Ajusta posición y mueve fuera del contenedor */
+  max-width: 420px;
+  width: 100%;
+  height: auto;
+  z-index: 1; /* debajo del form */
 }
 
-.decor-right {
+.decor-img-2 {
+  position: absolute;
+  left: 0;
+  top: 65%;
+  transform: translateY(-50%) translateX(-200px); /* Mueve fuera del contenedor */
+  max-width: 420px;
+  width: 100%;
+  height: auto;
+  z-index: 1; /* debajo del form */
+}
+
+/* s1 a la derecha */
+.decor-img-3 {
+  position: absolute;
   right: 0;
+  top: 50%;
+  transform: translateY(-50%) translateX(200px); /* Mueve fuera del contenedor */
+  max-width: 420px;
+  width: 100%;
+  height: auto;
+  z-index: 1;
 }
 
-/* ==== RESPONSIVE ==== */
-@media (max-width: 768px) {
-  .header {
-    flex-direction: column;
-    gap: 10px;
-    text-align: center;
+/* ========== Responsive ========== */
+@media (max-width: 980px) {
+  .login-row {
+    gap: 24px;
+    padding: 0 12px;
   }
-
   .login-box {
-    width: 90%;
+    width: 360px;
   }
+  .login-title {
+    font-size: 2.4rem;
+  }
+  .decor-img-1,
+  .decor-img-2,
+  .decor-img-3 {
+    max-width: 260px;
+  }
+}
 
-  .decor-left,
-  .decor-right {
-    display: none;
+@media (max-width: 640px) {
+  .login-row {
+    flex-direction: column;
+    align-items: center;
+  }
+  .login-box {
+    width: 92%;
+    max-width: 420px;
+    padding: 26px;
+  }
+  .login-title {
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+  }
+  .decor-img-1,
+  .decor-img-2,
+  .decor-img-3 {
+    display: none; /* ocultar en móvil */
   }
 }

@@ -6,21 +6,27 @@ import RecuperarContraseña from "./paginas/rec_contra/rec_contra";
 import Perfil from "./paginas/Perfil/perfil";
 import CrearArt from "./paginas/crearArt/CrearArt";
 import Deportes from "./paginas/Deportes/deportes";
-import Layout from "./paginas/Layout/layout";
-import 'antd/dist/reset.css';
-
+import PublicLayout from "./Layout/PublicLayout";
+import AuthLayout from "./Layout/Authlayout";
 
 export default function App() {
   return (
     <Routes>
-      <Route path="/" element={<Layout />}>
+      {/* Layout Público: Home + Categorías */}
+      <Route element={<PublicLayout />}>
         <Route index element={<Home />} />
+        <Route path="deportes" element={<Deportes />} />
+        <Route path="arte" element={<CrearArt />} /> {/* o página Arte */}
+        <Route path="cultura" element={<h1>Cultura</h1>} />
+        <Route path="bienestar" element={<h1>Bienestar</h1>} />
+      </Route>
+
+      {/* Layout de Formularios */}
+      <Route element={<AuthLayout />}>
         <Route path="login" element={<Login />} />
         <Route path="register" element={<Registro />} />
         <Route path="rec_contra" element={<RecuperarContraseña />} />
         <Route path="perfil" element={<Perfil />} />
-        <Route path="crear-articulo" element={<CrearArt />} />
-        <Route path="deportes" element={<Deportes />} />
       </Route>
     </Routes>
   );

@@ -1,87 +1,42 @@
-import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import s1 from "/Users/dilan/SN-52/Frontend/src/assets/Img/S1.png";
+import s6 from "/Users/dilan/SN-52/Frontend/src/assets/Img/s6.png";
+import fondo from "/Users/dilan/SN-52/Frontend/src/assets/Img/fondo.avif";
+import "./rec_contra.css"; // tu archivo de estilos
 
-const LoginForm: React.FC = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsLoading(true);
-    setError("");
-    
-    // Simulación de validación
-    setTimeout(() => {
-      if (!email || !password) {
-        setError("Por favor, complete todos los campos");
-      } else if (password.length < 6) {
-        setError("La contraseña debe tener al menos 6 caracteres");
-      } else {
-        // Aquí iría la lógica real de autenticación
-        alert("¡Inicio de sesión exitoso!");
-      }
-      setIsLoading(false);
-    }, 1000);
-  };
-
+export default function RecuperarContraseña() {
   return (
-    <div className="login-container">
-      <div className="login-card">
-        <div className="login-header">
-          <h1>INICIO SESIÓN</h1>
-          {error && <div className="error-message">¡Error! {error}</div>}
-        </div>
-        
-        <form onSubmit={handleSubmit} className="login-form">
-          <div className="input-group">
-            <label htmlFor="email">Correo electrónico</label>
-            <input
-              type="email"
-              id="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="SN_52@SENA.com"
-              required
-            />
-          </div>
-          
-          <div className="input-group">
-            <label htmlFor="password">Contraseña</label>
-            <input
-              type="password"
-              id="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="Ingresa tu contraseña"
-              required
-            />
-          </div>
-          
-          <div className="login-options">
-            <label className="checkbox-container">
-              <input type="checkbox" />
-              <span className="checkmark"></span>
-              Continuar con conversaría
-            </label>
-          </div>
-          
-          <button 
-            type="submit" 
-            className="login-button"
-            disabled={isLoading}
-          >
-            {isLoading ? "Cargando..." : "Login"}
+    <div>
+
+      {/* Fondo */}
+      <div
+        className="background"
+        style={{ backgroundImage: `url(${fondo})` }}
+      ></div>
+
+      {/* Título */}
+      <h1 className="titulo">RECUPERAR CONTRASEÑA</h1>
+
+      {/* Formulario */}
+      <div className="form-container">
+        {/* Adorno superior */}
+        <img src={s1} alt="Adorno Superior" className="adorno adorno-top" />
+
+        <form className="login-form">
+          <label htmlFor="email">Email </label>
+          <input type="email" id="email" placeholder="example@domain.com" />
+
+          <label htmlFor="password">Password </label>
+          <input type="password" id="password" placeholder="********" />
+
+          <button className="log" type="submit">
+            <span>Login</span>
           </button>
         </form>
-        
-        <div className="login-footer">
-          <p>¿No tienes una cuenta? <a href="/registro">Regístrate</a></p>
-          <a href="/olvide-contrasena">¿Olvidaste tu contraseña?</a>
-        </div>
+
+        {/* Adorno inferior */}
+        <img src={s6} alt="Adorno Inferior" className="adorno adorno-bottom" />
       </div>
     </div>
   );
-};
-
-export default LoginForm;
+}

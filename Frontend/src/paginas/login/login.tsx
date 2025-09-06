@@ -1,48 +1,49 @@
+// src/paginas/login/login.tsx
 import "./login.css";
+import s1 from "/Users/dilan/SN-52/Frontend/src/assets/Img/S1.png";
+import s5 from "/Users/dilan/SN-52/Frontend/src/assets/Img/s5.png";
+import s6 from "/Users/dilan/SN-52/Frontend/src/assets/Img/s6.png";
 import { Link } from "react-router-dom";
 
 export default function Login() {
   return (
-    <div className="login-container">
-      {/* Header */}
-      <header className="header">
-        <div className="profile">
-          <img src="../../public/ftopf.jpg" alt="Perfil" className="profile-img" />
-            <Link to="/">
-          <span className="profile-name">SN-52</span>
-            </Link>
-        </div>
-        <div className="header-buttons">
-            <Link to="/register">
-          <button className="btn" id="btnRegistro">REGISTRARSE</button>
-            </Link>
-          <button className="btn">INICIAR SESIÓN</button>
-        </div>
-      </header>
+    <div className="page-login">
+      <div className="login-wrap">
+        {/* título arriba */}
+        <header className="login-header">
+          <h1 className="login-title">INICIO SESIÓN</h1>
+        </header>
 
-      {/* Main */}
-      <main>
-        <h1 className="main-title">INICIO SESIÓN</h1>
-        <div className="login-box">
-          <form>
-            <label htmlFor="email">Email</label>
-            <input type="email" id="email" required />
+        {/* fila: imagen izquierda | formulario | imagen derecha */}
+        <section className="login-row">
+          <div className="decor-column left">
+            <img src={s5} alt="" className="decor-img decor-img-1" />
+            <img src={s6} alt="" className="decor-img decor-img-1" />
+          </div>
 
-            <label htmlFor="password">Password</label>
-            <input type="password" id="password" required />
-            <Link to="/rec_contra">
-            <a href="/rec_contraseña/contraseña.html" className="forgot-link">RECUPERAR CONTRASEÑA</a>
-            </Link>
-            <button type="submit" className="login-btn">
-              Login
-            </button>
-          </form>
-        </div>
+          <div className="login-box">
+            <form className="login-form">
+              <label htmlFor="email">Correo electrónico</label>
+              <input type="email" id="email" required />
 
-        {/* Imágenes decorativas */}
-        <img src="../assets/Img/S1.png" alt="Decoración" className="decor-left" />
-        <img src="../assets/Img/S2.png" alt="Decoración" className="decor-right" />
-      </main>
+              <label htmlFor="password">Contraseña</label>
+              <input type="password" id="password" required />
+
+              <Link to="/rec_contra" className="forgot-link">
+                RECUPERAR CONTRASEÑA
+              </Link>
+
+              <button type="submit" className="login-btn">
+                Acceso
+              </button>
+            </form>
+          </div>
+
+          <div className="decor-column right">
+            <img src={s1} alt="" className="decor-img decor-img-3" />
+          </div>
+        </section>
+      </div>
     </div>
   );
 }

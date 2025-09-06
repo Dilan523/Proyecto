@@ -1,37 +1,23 @@
 import { Link } from "react-router-dom";
 import "./perfil.css"
+import perfil from "/Users/dilan/SN-52/Frontend/src/assets/Img/perfil.jpg"
+import s1 from "/Users/dilan/SN-52/Frontend/src/assets/Img/S1.png"
+import s2 from "/Users/dilan/SN-52/Frontend/src/assets/Img/S2.png"
+import s3 from "/Users/dilan/SN-52/Frontend/src/assets/Img/S3.png"
 
 
 const Perfil: React.FC = () => {
   return (
-    <div className="app">
-      {/* NAVBAR */}
-      <header className="navbar">
-        <div className="logo">
-          <img src="https://i.pravatar.cc/100" alt="logo" />
-          <Link to="/">
-          <span className="logo-text">SN-52</span>
-          </Link>
-        </div>
-        <nav>
-          <Link to="/register" className="nav-btn">
-            Registrarse
-          </Link>
-          <Link to="/login" className="nav-btn">
-            Iniciar Sesión
-          </Link>
-        </nav>
-      </header>
-
-     <img alt="decoración 1" className="decoracion decoracion-left" />
-     <img alt="decoración 2" className="decoracion decoracion-right" />
-     <img alt="decoración 3" className="decoracion decoracion-bottom" />
+    <div className="app">    
+    <img src={s1} alt="Decoración" className="decoracion decoracion-left" />
+    <img src={s2} alt="decoración 2" className="decoracion decoracion-right" />
+    <img src={s3} alt="decoración 3" className="decoracion decoracion-bottom" />
 
 
       {/* PERFIL */}
       <section className="profile">
         <div className="profile-img">
-          <img src="https://i.pravatar.cc/200" alt="perfil" />
+          <img src={perfil} alt="perfil" className="perfil" />
         </div>
         <button className="btn-change">Cambiar Foto</button>
       </section>
