@@ -1,8 +1,8 @@
 // src/paginas/login/login.tsx
 import "./login.css";
-import s1 from "/Users/dilan/SN-52/Frontend/src/assets/Img/S1.png";
-import s5 from "/Users/dilan/SN-52/Frontend/src/assets/Img/s5.png";
-import s6 from "/Users/dilan/SN-52/Frontend/src/assets/Img/s6.png";
+import s1 from "../../assets/Img/S1.png";
+import s5 from "../../assets/Img/s5.png";
+import s4 from "../../assets/Img/s4.png";
 import { Link } from "react-router-dom";
 
 export default function Login() {
@@ -18,7 +18,7 @@ export default function Login() {
         <section className="login-row">
           <div className="decor-column left">
             <img src={s5} alt="" className="decor-img decor-img-1" />
-            <img src={s6} alt="" className="decor-img decor-img-1" />
+            <img src={s4} alt="" className="decor-img decor-img-1" />
           </div>
 
           <div className="login-box">

@@ -7,7 +7,7 @@ import Perfil from "./paginas/Perfil/perfil";
 import CrearArt from "./paginas/crearArt/CrearArt";
 import Deportes from "./paginas/Deportes/deportes";
 import PublicLayout from "./Layout/PublicLayout";
-import AuthLayout from "./Layout/Authlayout";
+import AuthLayout from "./Layout/AuthLayout";
 
 export default function App() {
   return (

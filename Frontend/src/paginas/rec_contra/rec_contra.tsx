@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
-import s1 from "/Users/dilan/SN-52/Frontend/src/assets/Img/S1.png";
-import s6 from "/Users/dilan/SN-52/Frontend/src/assets/Img/s6.png";
-import fondo from "/Users/dilan/SN-52/Frontend/src/assets/Img/fondo.avif";
+import s1 from "../../assets/Img/S1.png";
+import s4 from "../../assets/Img/s4.png";
+import fondo from "../../assets/Img/fondo.avif";
 import "./rec_contra.css"; // tu archivo de estilos
 
 export default function RecuperarContraseña() {
@@ -35,7 +35,7 @@ export default function RecuperarContraseña() {
         </form>
 
         {/* Adorno inferior */}
-        <img src={s6} alt="Adorno Inferior" className="adorno adorno-bottom" />
+        <img src={s4} alt="Adorno Inferior" className="adorno adorno-bottom" />
       </div>
     </div>
   );

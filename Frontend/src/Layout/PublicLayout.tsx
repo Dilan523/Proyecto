@@ -1,7 +1,7 @@
 // src/paginas/Layout/PublicLayout.tsx
 import { Outlet, Link } from "react-router-dom";
 import "./layout.css";
-import perfil from "/Users/dilan/SN-52/Frontend/src/assets/Img/perfil.jpg"
+import perfil from "../assets/Img/perfil.jpg"
 
 export default function PublicLayout() {
   return (

@@ -1,227 +1,261 @@
-/* Fondo general */
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: #f5f8fa;
+/* ========== FORM ========== */
+
+.formulario {
+  margin-top: auto;
+  padding: 2rem;
+  background: linear-gradient(to right, #5baec5, #dcedeb);
+  border-radius: 38px;
 }
 
-/* Header con degradado */
-.header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px 40px;
-    background: linear-gradient(90deg, #21b0a6 0%, #c4e3e1 100%);
-    border-bottom: 2px solid #21b08a;
+.formulario-container {
+  position: relative;
+  max-width: 500px;
+  margin: 100px auto;
 }
+
+/* ========== Titulo ========== */
 .titulo {
-    font-size: 4rem;
-    font-family: serif;
-    font-weight: bold;
-    margin: 60px 0 30px 220px;
-}
-/* Logo y foto */
-.logo-container {
-    display: flex;
-    align-items: center;
-}
-/* Imagen central y botón cambiar foto */
-.form-profile-pic-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 18px;
+  text-align: center;
+  margin-bottom: 0.3rem;
+  letter-spacing: -0-02em;
+  line-height: 0.9;
 }
 
-.form-profile-pic {
-    width: 90px;
-    height: 90px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 2px solid #4fc478;
-    margin-bottom: 10px;
+/* ========== foto de Perfil ========== */
+.form-profile-pic-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.profile-pic-wrapper {
+  position: relative;
+  cursor: pointer;
+  color: #000000;
+}
+
+.profile-pic-placeholder {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: white;
+  border: 2px dashed rgb(27, 138, 175);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: var(--transition);
+}
+
+.profile-pic-wrapper:hover .profile-pic-placeholder {
+  background: #ffffff;
+  border-color: rgb(0, 0, 0);
+}
+
+.profile-pic-overlay {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background: rgb(121, 217, 171);
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: var(--transition);
+}
+
+.profile-pic-wrapper:hover .profile-pic-overlay {
+  transform: scale(1.1);
 }
 
 .btn-cambiar-foto {
-    margin-left: 15px;
-    padding: 12px 28px;
-    font-size: 1.1rem;
-    border: none;
-    border-radius: 8px;
-    background: #66d1cd;
-    cursor: pointer;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  margin-top: 1rem;
+  background: none;
+  border: none;
+  color: rgba(0, 0, 0, 0.481);
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 0.9rem;
 }
 
-.btn-cambiar-foto:hover {
-    background-color: #fff;
-    color: #66d1cd;
+/* ========== Campos Fromulario ========== */
+.form-group {
+  position: relative;
+  margin-bottom: 0.4rem; 
 }
 
-/* Título del formulario */
-.formulario h2 {
-    text-align: center;
-    color: #2193b0;
-    margin-bottom: 18px;
-    margin-top: 0;
-    font-weight: 600;
+.form-group label {
+  font-size: 0.875rem;
+  font-weight: 630;
+  color: rgba(0, 0, 0, 0.714);
+  margin-bottom: 0.2rem;
+  display: block;
 }
 
-.profile-pic {
-    width: 70px;
-    height: 70px;
-    border-radius: 50%;
-    object-fit: cover;
-    margin-right: 15px;
+.form-group input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid var(--gray-300);
+  border-radius: var(--border-radius);
+  font-size: 1rem;
+  transition: var(--transition);
 }
 
-.logo-text {
-    font-size: 1.5rem;
-    font-family: serif;
-    font-weight: bold;
-    text-decoration: underline;
+.form-group input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(226, 231, 230, 0.15);
 }
 
-/* Botones del header */
-.header-buttons {
-    display: flex;
-    gap: 10px;
+.password-input-wrapper {
+  position: relative;
 }
 
-.btn {
-    margin-left: 15px;
-    padding: 12px 28px;
-    font-size: 1.1rem;
-    border: none;
-    border-radius: 8px;
-    background: #fff;
-    cursor: pointer;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
-}
-.btn:hover {
-    background-color: #66d1cd;
-    color: white;
+.password-toggle {
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: rgb(145, 145, 138);
 }
 
-/* Main content */
-.main-content {
-    display: flex;
-    background: linear-gradient(135deg, #21b0a6 0%, #e0f7fa 100%);
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    min-height: 50vh;
-    padding: 40px 0;
+/* ========== Estados de EXITO y ERROR ========== */
+.error-message {
+  color: var(--error-color);
+  font-size: 0.8rem;
+  margin-top: 0.5rem;
 }
 
-/* Decoraciones */
-.decor {
-    position: absolute;
-    width: 500px;
-    height: auto;
-    z-index: 1;
+.form-group input.error {
+  border-color: var(--error-color);
 }
 
+/* ========== SUBMIT BUTTON ========== */
+.btn-enviar {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: var(--border-radius);
+  background: rgba(255, 255, 255, 0.465);
+  color: rgb(0, 0, 0);
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.btn-enviar:hover:not(:disabled) {
+  background: rgb(184, 233, 226);
+}
+
+.spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(4, 4, 4, 0.5);
+  border-top-color: var(--white);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ==========  link del LOGIN ========== */
+.login-link {
+  text-align: center;
+  margin-top: 2rem;
+  color: rgb(54, 54, 53);
+}
+
+.login-link a {
+  color: rgb(94, 123, 179);
+  font-weight: 650;
+  text-decoration: none;
+}
+
+.login-link a:hover {
+  text-decoration: underline;
+}
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 520px) {
+  .registro-page {
+    padding: 1rem;
+  }
+
+  .formulario {
+    padding: 2rem;
+  }
+
+  .formulario--small {
+    padding: 1.5rem;
+  }
+
+  .formulario--large {
+    padding: 3rem;
+  }
+}
+/* =======Decoraciones=======*/
 .decor-left {
-    left: 0;
-    top: 275px;
+  position: absolute;
+  left: 0;
+  top: 14%;
+  transform: translateY(-50%) translateX(-200px); /* Ajusta posición y mueve fuera del contenedor */
+  max-width: 499px;
+  width: 100%;
+  height: auto;
+  z-index: 1; 
+}
+.dere-arriba {
+  position: absolute;
+  left: 0;
+  top: 78%;
+  transform: translateY(-50%) translateX(-230px);
+  max-width: 800px;
+  z-index: 1; 
+}
+.decor-arriba {
+  position: absolute;
+  left: 75%;
+  top: 4%;
+  z-index: 1; 
+  transform: translateY(-30%) translateX(-6%)
 }
 
 .decor-right {
-    right: 0;
-    bottom: 100px;
+  position: absolute;
+  left: 78%;
+  top: 45%;
+  transform: translateY(-50%) translateX(-200px); /* Ajusta posición y mueve fuera del contenedor */
+  max-width: 600px;
+  width: 100%;
+  height: auto;
+  z-index: 1; 
 }
-.decor-right {
+.decor-right{
     position: absolute;
     transform: translate(30px, 50px) rotate(180deg);
     transition: transform 0.3s ease-in-out; /* animación opcional */
 }
-
-
-/* Formulario */
-.formulario {
-    background: linear-gradient(135deg, #21b0a6 0%, #e0f7fa 100%);
-    padding: 40px 30px;
-    border-radius: 12px;
-    box-shadow: 0 4px 24px rgba(33,147,176,0.08);
-    display: flex;
-    flex-direction: column;
-    gap: 18px;
-    min-width: 400px;
-    z-index: 2;
-    margin: 0 60px;
-}
-
-.formulario label {
-    font-size: 1rem;
-    color: #000000;
-    margin-bottom: 6px;
-}
-
-.formulario input {
-    padding: 10px;
-    border: 2px solid #111010;
-    border-radius: 4px;
-    font-size: 1rem;
-    outline: none;
-    margin-bottom: 10px;
-    background: #f5f8fa;
-}
-
-.formulario input:focus {
-    border-color: #6dede4;
-}
-
-.btn-enviar {
-    margin-left: 15px;
-    padding: 12px 28px;
-    font-size: 1.1rem;
-    border: none;
-    border-radius: 8px;
-    background: #66d1cd;
-    cursor: pointer;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
-}
-
-.btn-enviar:hover {
-    background-color: #fff;
-    color: #66d1cd;
-}
-
-/* Responsive */
-@media (max-width: 900px) {
-    .main-content {
-        flex-direction: column;
-        padding: 20px 0;
-    }
-    .formulario {
-        min-width: 90vw;
-        margin: 0 10px;
-    }
-    .decor {
-        width: 120px;
-    }
-}
-.decor-bottom-left {
+.decor-left{
     position: absolute;
-    bottom: 20px;
-    left: 20px;
-    width: 160px;
-    z-index: 0;
+    transition: transform 0.3s ease-in-out; /* animación opcional */
 }
-
-.decor-bottom-right {
+.decor-arriba{
     position: absolute;
-    bottom: 50px;
-    right: 100px;
-    width: 200px;
-    z-index: 0;
+    transform: translate(50px) rotate(240deg);
+    transition: transform 0.3s ease-in-out; /* animación opcional */
 }
-
-@media (max-width: 900px) {
-    .decor-bottom-left,
-    .decor-bottom-right {
-        width: 100px;
-        bottom: 10px;
-    }
+.dere-arriba{
+    position: absolute;
+    transform: rotate(20deg) translateX(-130px);
+    transition: transform 0.7s ease-in-out; /* animación opcional */
 }

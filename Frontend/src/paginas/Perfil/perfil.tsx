@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
 import "./perfil.css"
-import perfil from "/Users/dilan/SN-52/Frontend/src/assets/Img/perfil.jpg"
-import s1 from "/Users/dilan/SN-52/Frontend/src/assets/Img/S1.png"
-import s2 from "/Users/dilan/SN-52/Frontend/src/assets/Img/S2.png"
-import s3 from "/Users/dilan/SN-52/Frontend/src/assets/Img/S3.png"
+import perfil from "../../assets/Img/perfil.jpg"
+import s1 from "../../assets/Img/S1.png"
+import s2 from "../../assets/Img/S2.png"
+import s3 from "../../assets/Img/S3.png"
 
 
 const Perfil: React.FC = () => {

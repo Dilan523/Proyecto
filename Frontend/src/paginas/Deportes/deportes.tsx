@@ -101,7 +101,6 @@ const NewsSection = () => {
   const prevSlide = () => {
     setCurrentSlide((prev) => (prev - 1 + featuredNews.length) % featuredNews.length);
   };
-
   const toggleLike = (id: number) => {
     setNews(news.map(item => 
       item.id === id 
