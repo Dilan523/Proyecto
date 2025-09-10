@@ -12,7 +12,9 @@ export default function PublicLayout() {
             <Link to="/perfil">
             <img src={perfil} alt="Logo" />
             </Link>
+            <Link to="/">
             <span>SN-52</span>
+            </Link>
           </div>
           <div className="navbar-actions">
             <Link to="/login" className="btn">Iniciar Sesión</Link>

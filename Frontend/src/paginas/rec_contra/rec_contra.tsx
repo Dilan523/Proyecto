@@ -1,21 +1,12 @@
-import { Link } from "react-router-dom";
 import s1 from "../../assets/Img/S1.png";
 import s4 from "../../assets/Img/s4.png";
-import fondo from "../../assets/Img/fondo.avif";
-import "./rec_contra.css"; // tu archivo de estilos
+import "./rec_contra.css";
 
 export default function RecuperarContraseña() {
   return (
-    <div>
-
-      {/* Fondo */}
-      <div
-        className="background"
-        style={{ backgroundImage: `url(${fondo})` }}
-      ></div>
-
+    <div className="page">
       {/* Título */}
-      <h1 className="titulo">RECUPERAR CONTRASEÑA</h1>
+      <h1 className="tittle">RECUPERAR CONTRASEÑA</h1>
 
       {/* Formulario */}
       <div className="form-container">

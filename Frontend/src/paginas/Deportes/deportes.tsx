@@ -143,7 +143,7 @@ const NewsSection = () => {
         {/* Header noticias */}
         <div className="news-header">
          {isAdmin && ( 
-            <Link to="/Crear-articulo"  className="add-news-btn">
+            <Link to="/CrearArt"  className="add-news-btn">
               <Plus size={20} />
                 Agregar Noticia
             </Link>

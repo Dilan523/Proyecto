@@ -3,7 +3,7 @@
 .formulario {
   margin-top: auto;
   padding: 2rem;
-  background: linear-gradient(to right, #5baec5, #dcedeb);
+  background: linear-gradient(135deg, #21b0a6 0%, #e0f7fa 100%);
   border-radius: 38px;
 }
 
@@ -16,9 +16,12 @@
 /* ========== Titulo ========== */
 .titulo {
   text-align: center;
-  margin-bottom: 0.3rem;
-  letter-spacing: -0-02em;
-  line-height: 0.9;
+  margin-bottom: 1rem;
+  font-size: 4rem;     
+  font-weight: bold;
+  color: #222 !important;     
+  font-family: serif;
+  letter-spacing: 1px;
 }
 
 /* ========== foto de Perfil ========== */
@@ -104,7 +107,7 @@
 
 .form-group input:focus {
   outline: none;
-  border-color: var(--primary-color);
+  border-color: var(--primary-dark);
   box-shadow: 0 0 0 3px rgba(226, 231, 230, 0.15);
 }
 
@@ -152,7 +155,7 @@
 }
 
 .btn-enviar:hover:not(:disabled) {
-  background: rgb(184, 233, 226);
+  background: #21b0a6;
 }
 
 .spinner {

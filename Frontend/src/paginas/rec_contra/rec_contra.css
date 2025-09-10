@@ -1,153 +1,93 @@
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    overflow: hidden; /* Para que no haya scroll innecesario */
+.page {
+  width: 100vw;
+  height: 100vh;
+  background: url("/fondo.avif") no-repeat center center fixed;
+  background-size: cover;
+
+  display: flex;
+  flex-direction: column; /* título arriba, form abajo */
+  align-items: center;
+  justify-content: center;
+  gap: 20px; /* espacio entre título y formulario */
 }
 
-/* HEADER */
-.header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: linear-gradient(90deg, #21b0a6 0%, #c4e3e1 100%);
-    padding: 10px 40px;
-    z-index: 10;
-    position: relative;
-}
-.titulo{
-    font-size: 4rem;
-    font-family: serif;
-    font-weight: bold;
-    margin-top: 10px;
+/* Título */
+.title {
+  font-size: 3rem;
+  font-family: serif;
+  font-weight: bold;
+  color: white; /* destaca sobre el fondo */
+  text-shadow: 2px 2px 8px rgba(0,0,0,0.6); /* efecto de sombra */
+  margin: 0; /* elimina bordes extra */
 }
 
-.profile {
-    display: flex;
-    align-items: center;
-}
-.profile-img {
-    width: 70px;
-    height: 70px;
-    border-radius: 50%;
-    object-fit: cover;
-    margin-right: 15px;
-}
-.profile-name {
-    color: black;
-    font-size: 1.5rem;
-    font-family: Arial, Helvetica, sans-serif;
-    font-weight: bold;
-    text-decoration: underline;
-}
-.header-buttons .btn {
-    margin-left: 15px;
-    padding: 12px 28px;
-    font-size: 1.1rem;
-    border: none;
-    border-radius: 8px;
-    background: #fff;
-    cursor: pointer;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
-}
-.btn:hover {
-    background-color: #66d1cd;
-    color: white;
-}
-
-/* FONDO más nítido */
-.background {
-    position: absolute;
-    inset: 0;
-    filter: contrast(1.1) brightness(1.05); /* realce de nitidez */
-    z-index: -1;
-}
-
-/* CONTENEDOR DEL FORMULARIO con transparencia estilo vidrio */
+/* Caja del formulario con efecto vidrio */
 .form-container {
-    position: absolute;
-    top: 60%; /* Ajusta este valor para subir o bajar */
-    left: 80%;
-    transform: translate(-50%, -50%);
-    
-    background-color: rgba(255, 255, 255, 0.25);
-    backdrop-filter: blur(10px);
-    padding: 40px ;
-    width: 450px;
-    border-radius: 20px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+  background-color: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+
+  padding: 40px;
+  width: 400px;
+  border-radius: 20px;
+
+  box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
 }
 
-
+/* Inputs */
 .login-form {
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
 .login-form label {
-    font-weight: bold;
+  font-weight: bold;
+  color: white;
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.6);
 }
 
 .login-form input {
-    padding: 12px;
-    border: none;
-    border-radius: 8px;
-    font-size: 14px;
-    width: 100%;
-    outline: none;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  outline: none;
 }
 
+/* Botón */
 .login-form button {
-    padding: 10px;
-    background: white;
-    border: none;
-    border-radius: 20px;
-    cursor: pointer;
-    font-weight: bold;
-    width: 100%;
-    transition: background 0.3s;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.6);
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.3s;
 }
 
 .login-form button:hover {
-    background: #f0f0f0;
+  background: rgba(255, 255, 255, 0.9);
 }
 
-
+/* Adornos */
 .adorno {
-    position :absolute;
-    width: 120px;
-    height: auto;
+  position: absolute;
+  width: 100px;
+  height: auto;
 }
 
 .adorno-top {
-    top: -50px;
-    right: -40px;
+  top: -40px;
+  right: -30px;
 }
 
 .adorno-bottom {
-    bottom: -40px;
-    left: -40px;
-}
-
-/* Inputs y botones un poco más pequeños para armonizar */
-.login-form input {
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    margin-bottom: 50px;
-}
-.login-form button {
-    background-color: rgba(255, 255, 255, 0.5);
-    padding: 8px;
-    border: none;
-    border-radius: 20px;
-    cursor: pointer;
-    font-weight: bold;
-    transition: background-color 0.2s ease;
-}
-.login-form button:hover {
-    background-color: rgba(255, 255, 255, 0.7);
+  bottom: -40px;
+  left: -30px;
 }
