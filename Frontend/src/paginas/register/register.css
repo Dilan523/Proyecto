@@ -16,12 +16,17 @@
 /* ========== Titulo ========== */
 .titulo {
   text-align: center;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
   font-size: 4rem;     
   font-weight: bold;
   color: #222 !important;     
   font-family: serif;
   letter-spacing: 1px;
+}
+@media (max-width: 520px) {
+  .titulo {
+    font-size: 2rem;
+  }
 }
 
 /* ========== foto de Perfil ========== */
@@ -206,59 +211,50 @@
     padding: 3rem;
   }
 }
-/* =======Decoraciones=======*/
+/* ====== DECORACIONES ====== */
 .decor-left {
   position: absolute;
-  left: 0;
-  top: 14%;
-  transform: translateY(-50%) translateX(-200px); /* Ajusta posición y mueve fuera del contenedor */
-  max-width: 499px;
-  width: 100%;
-  height: auto;
-  z-index: 1; 
+  left: -10%;   /* se va un poco fuera de pantalla para dar efecto */
+  top: 15%;     /* altura en la parte superior izquierda */
+  max-width: 40%; /* tamaño relativo a pantalla */
+  z-index: 1;
 }
+
 .dere-arriba {
   position: absolute;
-  left: 0;
-  top: 78%;
-  transform: translateY(-50%) translateX(-230px);
-  max-width: 800px;
-  z-index: 1; 
+  left: -11%;    
+  bottom: 1%;   /* parte inferior izquierda */
+  max-width: 33vw;
+  z-index: 1;
+  transform: rotate(70deg); /* inclinación */
 }
+
 .decor-arriba {
   position: absolute;
-  left: 75%;
-  top: 4%;
-  z-index: 1; 
-  transform: translateY(-30%) translateX(-6%)
+  right: -5%;   /* parte superior derecha */
+  top: 5%;
+  max-width: 75vw;
+  z-index: 1;
+  transform: rotate(240deg);
 }
 
 .decor-right {
   position: absolute;
-  left: 78%;
-  top: 45%;
-  transform: translateY(-50%) translateX(-200px); /* Ajusta posición y mueve fuera del contenedor */
-  max-width: 600px;
-  width: 100%;
-  height: auto;
-  z-index: 1; 
+  right: -10%;  /* parte inferior derecha */
+  bottom: 15%;
+  max-width: 29vw;
+  z-index: 1;
+  transform: rotate(180deg);
 }
-.decor-right{
-    position: absolute;
-    transform: translate(30px, 50px) rotate(180deg);
-    transition: transform 0.3s ease-in-out; /* animación opcional */
+
+/* ====== Versión móvil ====== */
+@media (max-width: 520px) {
+  .decor-left,
+  .decor-right,
+  .decor-arriba,
+  .dere-arriba {
+  display: none; /* se ocultan en móviles para que no estorben */
+  }
 }
-.decor-left{
-    position: absolute;
-    transition: transform 0.3s ease-in-out; /* animación opcional */
-}
-.decor-arriba{
-    position: absolute;
-    transform: translate(50px) rotate(240deg);
-    transition: transform 0.3s ease-in-out; /* animación opcional */
-}
-.dere-arriba{
-    position: absolute;
-    transform: rotate(20deg) translateX(-130px);
-    transition: transform 0.7s ease-in-out; /* animación opcional */
-}
+
+

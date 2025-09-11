@@ -13,25 +13,27 @@
 
 /* Título */
 .title {
-  font-size: 3rem;
+  font-size: 3.5rem;
   font-family: serif;
+  text-transform: uppercase;
   font-weight: bold;
   color: white; /* destaca sobre el fondo */
   text-shadow: 2px 2px 8px rgba(0,0,0,0.6); /* efecto de sombra */
   margin: 0; /* elimina bordes extra */
+  top: 130px;
+  left: 90px;
+  font-weight: 800;
+  position: absolute;
 }
 
 /* Caja del formulario con efecto vidrio */
 .form-container {
   background-color: rgba(255, 255, 255, 0.2);
   backdrop-filter: blur(10px);
-
   padding: 40px;
-  width: 400px;
+  width: 650px;
   border-radius: 20px;
-
   box-shadow: 0 8px 25px rgba(0,0,0,0.3);
-
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -74,20 +76,34 @@
 .login-form button:hover {
   background: rgba(255, 255, 255, 0.9);
 }
-
-/* Adornos */
 .adorno {
   position: absolute;
-  width: 100px;
+  width: 60px;
+  height: 60px;
+}
+.adorno-top-left {
+  top: -60px;
+  left: -110px;
+  width: 160px;
   height: auto;
 }
-
-.adorno-top {
-  top: -40px;
-  right: -30px;
+.adorno-top-right {
+  top: -60px;
+  right: -70px;
+    width: 160px;
+  height: auto;
 }
-
-.adorno-bottom {
-  bottom: -40px;
-  left: -30px;
+.adorno-bottom-left {
+  bottom: -60px;
+  left: -70px;
+  transform: rotate(30deg);
+  width: 180px;
+  height: auto;
+}
+.adorno-bottom-right {
+  bottom: -60px;
+  right: -100px;
+  width: 200px;
+  transform: rotate(-10deg);
+  height: auto;
 }
