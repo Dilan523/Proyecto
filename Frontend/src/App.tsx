@@ -6,8 +6,8 @@ import RecuperarContraseña from "./paginas/rec_contra/rec_contra";
 import Perfil from "./paginas/Perfil/perfil";
 import CrearArt from "./paginas/crearArt/CrearArt";
 import Deportes from "./paginas/Deportes/deportes";
-import PublicLayout from "./Layout/PublicLayout";
-import AuthLayout from "./Layout/AuthLayout";
+import PublicLayout from "./layouts/PublicLayout";
+import AuthLayout from "./layouts/AuthLayout";
 
 export default function App() {
   return (

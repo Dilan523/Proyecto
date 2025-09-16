@@ -1,4 +1,4 @@
-// src/paginas/Layout/AuthLayout.tsx
+// src/layouts/AuthLayout.tsx
 import { Outlet, Link } from "react-router-dom";
 import "./layout.css";
 import perfil from "../assets/Img/perfil.jpg"
@@ -12,7 +12,7 @@ export default function AuthLayout() {
             <Link to="/perfil">
             <img src={perfil} alt="Logo" />
             </Link>
-            <Link to="/"> 
+            <Link to="/">
             <span>SN-52</span>
             </Link>
           </div>

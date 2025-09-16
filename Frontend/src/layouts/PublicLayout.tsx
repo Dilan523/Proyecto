@@ -1,4 +1,4 @@
-// src/paginas/Layout/PublicLayout.tsx
+// src/layouts/PublicLayout.tsx
 import { Outlet, Link } from "react-router-dom";
 import "./layout.css";
 import perfil from "../assets/Img/perfil.jpg"

@@ -170,7 +170,7 @@ body {
   left: 78%;
   top: 45%;
   transform: translateY(-50%) translateX(-200px); /* Ajusta posición y mueve fuera del contenedor */
-  max-width: 600px;
+  max-width: 600px; 
   width: 100%;
   height: auto;
   z-index: 1; 
