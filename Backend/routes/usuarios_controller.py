@@ -1,0 +1,82 @@
+# usuarios_controller.py
+from fastapi import APIRouter, Depends, HTTPException, status, UploadFile, File, Form
+from sqlalchemy.orm import Session
+from db import get_db
+from models.usuario import Usuario
+from models.schemas import UsuarioOut, TokenResponse
+from security.passwords import encriptar_contrasena, verificar_contrasena
+from security.jwt import crear_token
+
+router = APIRouter(prefix="/auth", tags=["Autenticación"])
+
+# Registro
+@router.post("/register", response_model=UsuarioOut)
+async def register(
+    nombre_usuario: str = Form(...),
+    apellido_usuario: str = Form(...),
+    correo_usuario: str = Form(...),
+    contrasena_usuario: str = Form(...),
+    rol_id: int = Form(1),
+    foto_usuario: UploadFile | None = File(None),
+    db: Session = Depends(get_db)
+):
+    # Validar si el correo ya existe
+    if db.query(Usuario).filter(Usuario.correo_usuario == correo_usuario).first():
+        raise HTTPException(status_code=400, detail="Correo ya registrado")
+
+    hashed_password = encriptar_contrasena(contrasena_usuario)
+
+    nuevo_usuario = Usuario(
+        nombre_usuario=nombre_usuario,
+        apellido_usuario=apellido_usuario,
+        correo_usuario=correo_usuario,
+        contrasena_usuario=hashed_password,
+        rol_id=rol_id,
+        foto_usuario=foto_usuario.filename if foto_usuario else None
+    )
+
+    db.add(nuevo_usuario)
+    db.commit()
+    db.refresh(nuevo_usuario)
+
+    # Guardar archivo si hay foto
+    if foto_usuario:
+        with open(f"uploads/{foto_usuario.filename}", "wb") as f:
+            f.write(await foto_usuario.read())
+
+    return UsuarioOut(
+        id=nuevo_usuario.id_usuario,
+        nombre=nuevo_usuario.nombre_usuario,
+        apellidos=nuevo_usuario.apellido_usuario,
+        correo=nuevo_usuario.correo_usuario,
+        foto=nuevo_usuario.foto_usuario,
+        rol_id=nuevo_usuario.rol_id
+    )
+
+# Login
+@router.post("/login", response_model=TokenResponse)
+def login(
+    correo_usuario: str = Form(...),
+    contrasena_usuario: str = Form(...),
+    db: Session = Depends(get_db)
+):
+    usuario = db.query(Usuario).filter(Usuario.correo_usuario == correo_usuario).first()
+    if not usuario:
+        raise HTTPException(status_code=400, detail="Correo no registrado")
+    if not verificar_contrasena(contrasena_usuario, usuario.contrasena_usuario):
+        raise HTTPException(status_code=400, detail="Contraseña incorrecta")
+
+    token = crear_token({"sub": usuario.id_usuario, "rol_id": usuario.rol_id})
+
+    return TokenResponse(
+        access_token=token,
+        token_type="bearer",
+        usuario=UsuarioOut(
+            id=usuario.id_usuario,
+            nombre=usuario.nombre_usuario,
+            apellidos=usuario.apellido_usuario,
+            correo=usuario.correo_usuario,
+            foto=usuario.foto_usuario,
+            rol_id=usuario.rol_id
+        )
+    )

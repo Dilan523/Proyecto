@@ -1,19 +1,46 @@
-import { useState } from "react";
+// src/paginas/Perfil/perfil.tsx
+import { useState, useEffect, useContext } from "react";
 import "./perfil.css";
 import perfilDefault from "../../assets/Img/perfil.jpg";
 import s1 from "../../assets/Img/S1.png";
 import s2 from "../../assets/Img/S2.png";
 import s3 from "../../assets/Img/S3.png";
+import { UserContext } from "../../context/UserContext";
 
 const Perfil: React.FC = () => {
-  const [foto, setFoto] = useState<string | null>(perfilDefault);
+  const { user, setUser } = useContext(UserContext);
+  const [foto, setFoto] = useState<string>(user?.foto || perfilDefault);
+  const [nombre, setNombre] = useState(user?.nombre || "");
+  const [apellidos, setApellidos] = useState(user?.apellidos || "");
+  const [email, setEmail] = useState(user?.email || "");
+
+  useEffect(() => {
+    if (user) {
+      setFoto(user.foto || perfilDefault);
+      setNombre(user.nombre);
+      setApellidos(user.apellidos || "");
+      setEmail(user.email);
+    } else {
+      setFoto(perfilDefault);
+      setNombre("");
+      setApellidos("");
+      setEmail("");
+    }
+  }, [user]);
 
   const handleFotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
       const reader = new FileReader();
       reader.onload = () => {
-        setFoto(reader.result as string);
+        const newFoto = reader.result as string;
+        setFoto(newFoto);
+
+        if (user) {
+          const updatedUser = { ...user, foto: newFoto };
+          setUser(updatedUser);
+          localStorage.setItem("user", JSON.stringify(updatedUser));
+        }
       };
       reader.readAsDataURL(file);
     }
@@ -21,24 +48,16 @@ const Perfil: React.FC = () => {
 
   return (
     <div className="app">
-      {/* Contenedor principal */}
       <div className="perfil-container">
         <div className="perfil-header">
-          <h2 className="titulo">Perfil de Usuario</h2>
+          <h2 className="titulo">Perfil de {nombre || "Usuario"}</h2>
           <p>Actualiza tu foto de perfil y detalles personales.</p>
         </div>
 
         <div className="perfil-content">
-          {/* Foto dinámica */}
           <div className="foto-container">
             <label htmlFor="fotoInput" className="upload-box">
-              {foto ? (
-                <img src={foto} alt="perfil" className="perfil" />
-              ) : (
-                <div className="placeholder">
-                  <span className="icono">📷</span>
-                </div>
-              )}
+              <img src={foto} alt="perfil" className="perfil" />
               <div className="hover-overlay">
                 <span>📤 Subir</span>
               </div>
@@ -53,17 +72,16 @@ const Perfil: React.FC = () => {
             <p className="subtexto">Cambiar Foto</p>
           </div>
 
-          {/* Formulario */}
           <section className="formulario">
             <form>
               <label htmlFor="nombre">Nombre</label>
-              <input id="nombre" type="text" placeholder="Usuario" required />
+              <input id="nombre" type="text" value={nombre} readOnly />
 
               <label htmlFor="apellidos">Apellidos</label>
-              <input id="apellidos" type="text" placeholder="Ejemplo" required />
+              <input id="apellidos" type="text" value={apellidos} readOnly />
 
               <label htmlFor="email">Email</label>
-              <input id="email" type="email" placeholder="usuario@ejemplo.com" required />
+              <input id="email" type="email" value={email} readOnly />
 
               <button type="submit" className="form-btn">
                 Enviar
@@ -72,10 +90,10 @@ const Perfil: React.FC = () => {
           </section>
         </div>
       </div>
-            {/* decoraciones */}
+
       <img src={s1} alt="Decoración" className="decor-left" />
-      <img src={s2} alt="decoración 2" className="decor-right" />
-      <img src={s3} alt="decoración 3" className="decor-bottom" />
+      <img src={s2} alt="Decoración" className="decor-right" />
+      <img src={s3} alt="Decoración" className="decor-bottom" />
     </div>
   );
 };

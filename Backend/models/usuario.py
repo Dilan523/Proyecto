@@ -1,20 +1,18 @@
 from db import Base
-from sqlalchemy import Column, Integer, String, Date, Boolean, ForeignKey
+from sqlalchemy import Column, Integer, String, ForeignKey
 from sqlalchemy.orm import relationship
 
 class Usuario(Base):
     __tablename__ = "usuarios"
-    id_usuario = Column(Integer,
-                        primary_key=True)
+    
+    id_usuario = Column(Integer, primary_key=True, index=True)
     nombre_usuario = Column(String(60))
     apellido_usuario = Column(String(60))
-    correo_usuario = Column(String(60))
-    contrasena_usuario = Column(String(60))
-    estado_editor = Column(Boolean)
-    estado_escritor = Column(Boolean)
+    correo_usuario = Column(String(60), unique=True, index=True)
+    contrasena_usuario = Column(String(255), nullable=False)
+    foto_usuario = Column(String(255), nullable=True)
+
+    rol_id = Column(Integer, ForeignKey("roles.id_rol"), nullable=False)
+    rol = relationship("Rol", back_populates="usuarios")
 
     comentarios = relationship("Comentario", back_populates="usuario")
-    #clave foranea
-    rol_id = Column(Integer, ForeignKey("roles.id_rol"))
-    # Relación con SQLAlchemy para acceso sencillo
-    rol = relationship("Rol", back_populates="usuarios")

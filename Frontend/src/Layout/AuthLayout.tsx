@@ -1,24 +1,50 @@
-// src/paginas/Layout/AuthLayout.tsx
-import { Outlet, Link } from "react-router-dom";
+// src/Layout/AuthLayout.tsx
+import { Outlet, Link, useNavigate } from "react-router-dom";
 import "./layout.css";
-import perfil from "../assets/Img/perfil.jpg"
+import perfilDefault from "../assets/Img/perfil.jpg";
+import { useContext } from "react";
+import { UserContext } from "../context/UserContext";
 
 export default function AuthLayout() {
+  const { user, setUser } = useContext(UserContext);
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    setUser(null);
+    navigate("/login");
+  };
+
   return (
     <div className="auth-layout">
       <header>
         <div className="navbar-top">
           <div className="navbar-logo">
             <Link to="/perfil">
-            <img src={perfil} alt="Logo" />
+              <img
+                src={user?.foto || perfilDefault}
+                alt="Perfil"
+                className="navbar-perfil"
+              />
             </Link>
-            <Link to="/"> 
-            <span>SN-52</span>
+            <Link to="/">
+              <span>SN-52</span>
             </Link>
           </div>
           <div className="navbar-actions">
-            <Link to="/login" className="btn">Iniciar Sesión</Link>
-            <Link to="/register" className="btn">Registrarse</Link>
+            {user ? (
+              <button onClick={handleLogout} className="btn">
+                Cerrar Sesión
+              </button>
+            ) : (
+              <>
+                <Link to="/login" className="btn">
+                  Iniciar Sesión
+                </Link>
+                <Link to="/register" className="btn">
+                  Registrarse
+                </Link>
+              </>
+            )}
           </div>
         </div>
       </header>

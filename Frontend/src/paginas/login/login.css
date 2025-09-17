@@ -1,59 +1,40 @@
-/* Asegura que el degradado de fondo cubra toda la ventana */
-html,
-body {
+html, body {
   margin: 0;
   padding: 0;
   height: 100%;
   width: 100%;
-  background: linear-gradient(135deg, #21b0a6 0%, #e0f7fa 100%);
   font-family: Arial, sans-serif;
-  overflow: hidden; /* Evita barras de desplazamiento */
+  background: linear-gradient(135deg, #21b0a6 0%, #e0f7fa 100%);
+  overflow: hidden;
 }
 
-/* Contenedor principal para que ocupe todo */
-.login-container {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
-
-/* Main ocupa todo y elimina centrado forzado */
-.login-container main {
-  flex: 1;
-  width: 100%;
-  display: block; /* evita centrado flex */
-}
-
-/* ========== Contenedor general de la página ========== */
-.page-login {
+.login-page-container {
   width: 100%;
   min-height: 100vh;
-  box-sizing: border-box;
   display: flex;
   justify-content: center;
   align-items: flex-start;
   position: relative;
   z-index: 1;
-  background: linear-gradient(135deg, #21b0a6 0%, #e0f7fa 100%);
+  padding-top: 80px;
 }
 
-/* Ancho máximo centrado */
-.login-wrap {
+.login-content {
   width: 100%;
   max-width: 1400px;
-  position: relative;
-  z-index: 2; /* mantiene todo el contenido encima del fondo decorativo */
-}
-
-/* ========== Título arriba ========== */
-.login-header {
   display: flex;
   justify-content: center;
-  margin-bottom: 38px;
-  /* El fondo se elimina automáticamente ya que la clase 'login-header' no tiene uno */
-  background: transparent; /* Asegura que no tenga fondo */
-  padding: 0; /* Asegura que no tenga relleno que pueda simular un fondo */
-  margin-left: -500px; /* Desplazar el título a la izquierda */
+  position: relative;
+  z-index: 2;
+}
+
+.login-card {
+  width: 550px;
+  background: linear-gradient(135deg, #21b0a6 0%, #e0f7fa 100%);
+  padding: 34px 28px;
+  border-radius: 14px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  z-index: 3;
 }
 
 .login-title {
@@ -61,38 +42,17 @@ body {
   font-size: 4rem;
   font-weight: 700;
   color: #222;
-  margin: 10px;
-  letter-spacing: 1px;
+  margin: 10px 0;
+  text-align: center;
 }
 
-/* ========== Fila principal ========== */
-.login-row {
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
-  gap: 48px;
-  width: 100%;
-  box-sizing: border-box;
-  padding: 0 20px;
-  position: relative;
-  z-index: 2;
-}
-
-/* ========== Caja del formulario ========== */
-.login-box {
-  width: 550px;
-  max-width: 45%;
-  background: linear-gradient(135deg, #21b0a6 0%, #e0f7fa 100%);
-  padding: 34px 28px;
-  border-radius: 14px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-  display: flex;
-  justify-content: center;
-  z-index: 3; /* más alto que las imágenes decorativas */
+.login-subtitle {
+  text-align: center;
+  color: #545151;
+  margin-bottom: 24px;
 }
 
 .login-form {
-  width: 100%;
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -106,16 +66,17 @@ body {
 .login-form input {
   padding: 12px 14px;
   border-radius: 8px;
-  border: 1px solid #d0d7da;
+  border: 1px solid #9adaab;
   font-size: 1rem;
 }
 
-.forgot-link {
-  display: block;
+.forgot-container {
   text-align: right;
+}
+
+.forgot-link {
   color: #178ea0;
   font-size: 0.95rem;
-  margin-top: 6px;
   text-decoration: underline;
 }
 
@@ -124,113 +85,67 @@ body {
   padding: 12px;
   border-radius: 10px;
   border: none;
-  background: #fff;
-  color: #222;
+  background: #00a884;
+  color: white;
   font-weight: 700;
   cursor: pointer;
   width: 100%;
-  box-shadow: 0 6px 18px rgba(34, 139, 139, 0.12);
+  box-shadow: 0 6px 18px rgba(0, 168, 132, 0.2);
 }
 
 .login-btn:hover {
-  background: #66d1cd;
-  color: black;
+  background: #008f6b;
+}
+
+.register-text {
+  margin-top: 10px;
+  text-align: center;
+  font-size: 0.95rem;
+}
+
+.register-link {
+  color: #178ea0;
+  text-decoration: underline;
 }
 
 /* ========== Decoraciones ========== */
-/* s5 y s6 pegadas abajo izquierda */
 .decor-left {
   position: absolute;
   left: 0;
   top: 14%;
-  transform: translateY(-50%) translateX(-200px); /* Ajusta posición y mueve fuera del contenedor */
   max-width: 499px;
-  width: 100%;
-  height: auto;
-  z-index: 1; 
+  z-index: 1;
 }
-.dere-arriba {
+.decor-rigth {
   position: absolute;
-  left: 0;
-  top: 78%;
-  transform: translateY(-50%) translateX(-230px);
-  max-width: 800px;
-  z-index: 1; 
+  left: 78%;
+  top: 45%;
+  max-width: 600px;
+  z-index: 1;
 }
 .decor-arriba {
   position: absolute;
   left: 75%;
   top: 4%;
-  z-index: 1; 
-  transform: translateY(-30%) translateX(-6%)
+  max-width: 500px;
+  z-index: 1;
 }
-
-.decor-right {
+.dere-arriba {
   position: absolute;
-  left: 78%;
-  top: 45%;
-  transform: translateY(-50%) translateX(-200px); /* Ajusta posición y mueve fuera del contenedor */
-  max-width: 600px;
-  width: 100%;
-  height: auto;
-  z-index: 1; 
-}
-.decor-right{
-    position: absolute;
-    transform: translate(30px, 50px) rotate(180deg);
-    transition: transform 0.3s ease-in-out; /* animación opcional */
-}
-.decor-left{
-    position: absolute;
-    transition: transform 0.3s ease-in-out; /* animación opcional */
-}
-.decor-arriba{
-    position: absolute;
-    transform: translate(50px) rotate(240deg);
-    transition: transform 0.3s ease-in-out; /* animación opcional */
-}
-.dere-arriba{
-    position: absolute;
-    transform: rotate(20deg) translateX(-130px);
-    transition: transform 0.7s ease-in-out; /* animación opcional */
+  left: 0;
+  top: 78%;
+  max-width: 800px;
+  z-index: 1;
 }
 
 /* ========== Responsive ========== */
 @media (max-width: 980px) {
-  .login-row {
-    gap: 24px;
-    padding: 0 12px;
-  }
-  .login-box {
-    width: 360px;
-  }
-  .login-title {
-    font-size: 2.4rem;
-  }
-  .decor-img-1,
-  .decor-img-2,
-  .decor-img-3 {
-    max-width: 260px;
-  }
+  .login-card { width: 360px; }
+  .login-title { font-size: 2.4rem; }
 }
 
 @media (max-width: 640px) {
-  .login-row {
-    flex-direction: column;
-    align-items: center;
-  }
-  .login-box {
-    width: 92%;
-    max-width: 420px;
-    padding: 26px;
-  }
-  .login-title {
-    font-size: 1.8rem;
-    margin-bottom: 20px;
-  }
-  .decor-img-1,
-  .decor-img-2,
-  .decor-img-3 {
-    display: none; /* ocultar en móvil */
-  }
+  .login-card { width: 92%; padding: 26px; }
+  .login-title { font-size: 1.8rem; margin-bottom: 20px; }
+  .decor-left, .decor-rigth, .decor-arriba, .dere-arriba { display: none; }
 }
