@@ -1,16 +1,15 @@
-// src/Layout/AuthLayout.tsx
 import { Outlet, Link, useNavigate } from "react-router-dom";
-import "./layout.css";
+import "./Layout.css";
 import perfilDefault from "../assets/Img/perfil.jpg";
 import { useContext } from "react";
 import { UserContext } from "../context/UserContext";
 
 export default function AuthLayout() {
-  const { user, setUser } = useContext(UserContext);
+  const { user, logout } = useContext(UserContext);
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    setUser(null);
+    logout();
     navigate("/login");
   };
 
@@ -21,7 +20,7 @@ export default function AuthLayout() {
           <div className="navbar-logo">
             <Link to="/perfil">
               <img
-                src={user?.foto || perfilDefault}
+                src={user?.foto ? `http://localhost:8000/uploads/${user.foto}` : perfilDefault}
                 alt="Perfil"
                 className="navbar-perfil"
               />

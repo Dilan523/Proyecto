@@ -6,6 +6,9 @@ body {
   font-family: Arial, Helvetica, sans-serif;
   background: #f5f8fa;
   color: #222;
+  overflow-x: hidden;
+  height: 100%;
+  overflow-y: auto;
 }
 
 a {
@@ -14,8 +17,7 @@ a {
 }
 
 main {
-  padding: 2rem;
-  min-height: calc(100vh - 120px);
+  min-height: 100vh;
 }
 
 /* ==============================
@@ -35,7 +37,7 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem 2rem;
+  padding: 1rem 1rem;
 }
 
 .navbar-logo {
@@ -90,7 +92,7 @@ header {
   justify-content: center;
   gap: 2rem;
   background: #8ee0db;
-  padding: 0.8rem 0;
+  padding: 0.8rem 1rem;
 }
 
 .navbar-bottom a {
@@ -122,7 +124,5 @@ header {
 }
 
 .public-layout main {
-  max-width: 1200px;
-  margin: auto;
-  overflow-y: auto;
+  width: 100%;
 }

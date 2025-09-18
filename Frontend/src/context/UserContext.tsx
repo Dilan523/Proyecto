@@ -18,14 +18,14 @@ interface UserContextType {
   logout: () => void;
 }
 
-// Creamos el contexto con valores por defecto
+// Contexto
 export const UserContext = createContext<UserContextType>({
   user: null,
   setUser: () => {},
   logout: () => {},
 });
 
-// Proveedor de contexto
+// Proveedor
 export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
 
@@ -37,6 +37,7 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const logout = () => {
     setUser(null);
     localStorage.removeItem("user");
+    localStorage.removeItem("token");
   };
 
   return (

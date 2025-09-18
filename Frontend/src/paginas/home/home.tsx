@@ -1,10 +1,16 @@
+// Importaciones necesarias para el componente React
 import React, { useState } from "react";
-import { Heart, MessageCircle, Share2, Bookmark, Search, User } from "lucide-react";
+// Importación de iconos de Lucide para botones de acciones
+import { Heart, MessageCircle, Share2, Bookmark, Search } from "lucide-react";
+// Importación del componente Carousel de Ant Design para el carrusel
+import { Carousel } from 'antd';
+// Importación del archivo de estilos CSS
 import "./home.css";
+// Importación de imágenes decorativas para el footer
+import s4 from "../../assets/Img/s4.png";
+import s3 from "../../assets/Img/S3.png";
 
-const imagenIzquierda = "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/Logo_SENA.svg/1200px-Logo_SENA.svg.png";
-const imagenDerecha = "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/Logo_SENA.svg/1200px-Logo_SENA.svg.png";
-
+// Array de objetos que contiene las imágenes destacadas para mostrar en la barra lateral
 const imagenesDestacadas = [
   { 
     urlImagen: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80', 
@@ -50,62 +56,145 @@ const iconosRedes = {
   youtube: "https://cdn-icons-png.flaticon.com/512/174/174883.png",
 };
 
-const noticiasRelevantes = [
+const featuredNewsHome = [
   {
     id: 1,
-    titulo: "Desarticulada banda criminal en operativo conjunto",
-    resumen: "Las autoridades llevaron a cabo un exitoso operativo que resultó en la captura de 12 integrantes de una organización delictiva dedicada al hurto de mercancía.",
-    imagen: "https://images.unsplash.com/photo-1586339949916-3e9457bef6d3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-    categoria: "SEGURIDAD",
-    fecha: "hace 2 horas",
-    autor: "Redacción SN-52",
-    likes: 45,
-    comentarios: 12,
-    compartidos: 8
+    title: "Avances Tecnológicos en Educación",
+    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=1200&h=500&fit=crop",
+    category: "EDUCACIÓN"
   },
   {
     id: 2,
-    titulo: "Nuevos programas de formación en tecnología",
-    resumen: "El centro anuncia la apertura de 5 nuevos programas de formación en áreas de inteligencia artificial y desarrollo web.",
-    imagen: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-    categoria: "EDUCACIÓN",
-    fecha: "hace 4 horas",
-    autor: "Coordinación Académica",
-    likes: 78,
-    comentarios: 23,
-    compartidos: 15
+    title: "Innovación en Proyectos Culturales",
+    image: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=1200&h=500&fit=crop",
+    category: "CULTURA"
   },
   {
     id: 3,
-    titulo: "Festival cultural reúne a talentos juveniles",
-    resumen: "Más de 200 jóvenes participaron en el festival anual que promueve las expresiones artísticas y culturales de la región.",
-    imagen: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-    categoria: "CULTURA",
-    fecha: "hace 6 horas",
-    autor: "Área Cultural",
-    likes: 92,
-    comentarios: 18,
-    compartidos: 22
-  },
-  {
-    id: 4,
-    titulo: "Avances en proyectos de investigación aplicada",
-    resumen: "Estudiantes e instructores presentaron los resultados de sus proyectos de investigación en el evento semestral de innovación.",
-    imagen: "https://images.unsplash.com/photo-1532619675605-1ede6c2ed2b0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-    categoria: "INVESTIGACIÓN",
-    fecha: "hace 8 horas",
-    autor: "Centro de Innovación",
-    likes: 67,
-    comentarios: 31,
-    compartidos: 19
+    title: "Nuevos Descubrimientos Científicos",
+    image: "https://images.unsplash.com/photo-1532094349884-543bc11b234d?w=1200&h=500&fit=crop",
+    category: "CIENCIA"
   }
 ];
 
+// Array de objetos que contiene las noticias relevantes para mostrar en la sección principal
+// Array de objetos que contiene las noticias relevantes para mostrar en la sección principal
+const noticiasRelevantes = [
+  {
+    id: 1,
+    titulo: "Estudiantes del SENA crean aplicación innovadora",
+    descripcion: "Un grupo de aprendices del SENA desarrolló una app para mejorar la gestión de proyectos educativos.",
+    fecha: "2025-09-15",
+    autor: "Redacción SN-52",
+    imagen: "https://source.unsplash.com/400x250/?education,technology",
+    categoria: "TECNOLOGÍA",
+    resumen: "Aprendices desarrollan aplicación educativa para optimizar proyectos.",
+    likes: 10,
+    comentarios: 3,
+    compartidos: 2,
+  },
+  {
+    id: 2,
+    titulo: "Nueva convocatoria de formación virtual",
+    descripcion: "El SENA abre inscripciones para más de 20 programas de formación técnica y tecnológica en modalidad virtual.",
+    fecha: "2025-09-14",
+    autor: "Comunicaciones SENA",
+    imagen: "https://source.unsplash.com/400x250/?online,learning",
+    categoria: "EDUCACIÓN",
+    resumen: "Convocatoria abierta para programas técnicos y tecnológicos virtuales.",
+    likes: 8,
+    comentarios: 5,
+    compartidos: 1,
+  },
+  {
+    id: 3,
+    titulo: "Aprendices destacan en competencias nacionales",
+    descripcion: "Delegación del SENA obtiene primeros lugares en la competencia de habilidades técnicas a nivel nacional.",
+    fecha: "2025-09-13",
+    autor: "Equipo SN-52",
+    imagen: "https://source.unsplash.com/400x250/?competition,students",
+    categoria: "CULTURA",
+    resumen: "Aprendices logran primeros puestos en competencias de habilidades técnicas.",
+    likes: 15,
+    comentarios: 7,
+    compartidos: 4,
+  },
+  {
+    id: 4,
+    titulo: "SENA impulsa proyectos de investigación",
+    descripcion: "Se anunciaron nuevos apoyos para proyectos innovadores en tecnología, agroindustria y sostenibilidad.",
+    fecha: "2025-09-12",
+    autor: "Redacción SN-52",
+    imagen: "https://source.unsplash.com/400x250/?research,innovation",
+    categoria: "INNOVACIÓN",
+    resumen: "El SENA fortalece el impulso a proyectos de investigación aplicada.",
+    likes: 12,
+    comentarios: 4,
+    compartidos: 3,
+  },
+  {
+    id: 5,
+    titulo: "Alianza estratégica con empresas tecnológicas",
+    descripcion: "El SENA firmó convenios para fortalecer la empleabilidad de sus aprendices en el sector tecnológico.",
+    fecha: "2025-09-11",
+    autor: "Comunicaciones SENA",
+    imagen: "https://source.unsplash.com/400x250/?business,technology",
+    categoria: "TECNOLOGÍA",
+    resumen: "Se consolidan alianzas estratégicas para mejorar la empleabilidad.",
+    likes: 20,
+    comentarios: 6,
+    compartidos: 5,
+  },
+  {
+    id: 6,
+    titulo: "Feria de innovación en el SENA",
+    descripcion: "Aprendices de diferentes centros presentaron proyectos que aportan soluciones a problemáticas reales.",
+    fecha: "2025-09-10",
+    autor: "Equipo SN-52",
+    imagen: "https://source.unsplash.com/400x250/?fair,innovation",
+    categoria: "INNOVACIÓN",
+    resumen: "Se destacan proyectos innovadores en la feria nacional del SENA.",
+    likes: 18,
+    comentarios: 8,
+    compartidos: 6,
+  },
+  {
+    id: 7,
+    titulo: "Nuevas becas internacionales para aprendices",
+    descripcion: "El SENA anunció becas en alianza con instituciones educativas de Europa y América Latina.",
+    fecha: "2025-09-09",
+    autor: "Redacción SN-52",
+    imagen: "https://source.unsplash.com/400x250/?scholarship,students",
+    categoria: "EDUCACIÓN",
+    resumen: "Becas internacionales abiertas para aprendices en distintas áreas.",
+    likes: 9,
+    comentarios: 2,
+    compartidos: 1,
+  },
+  {
+    id: 8,
+    titulo: "Programas de bienestar para aprendices",
+    descripcion: "Se fortalecen iniciativas de deporte, cultura y salud para el bienestar integral de la comunidad SENA.",
+    fecha: "2025-09-08",
+    autor: "Comunicaciones SENA",
+    imagen: "https://source.unsplash.com/400x250/?wellness,students",
+    categoria: "BIENESTAR",
+    resumen: "Se impulsan actividades de bienestar integral para la comunidad SENA.",
+    likes: 14,
+    comentarios: 3,
+    compartidos: 2,
+  },
+];
+
+
+// Definición del componente funcional Inicio usando React.FC
 export const Inicio: React.FC = () => {
+  // Estados para manejar artículos marcados como me gusta, guardados y término de búsqueda
   const [likedArticles, setLikedArticles] = useState<Set<number>>(new Set());
   const [savedArticles, setSavedArticles] = useState<Set<number>>(new Set());
   const [searchTerm, setSearchTerm] = useState("");
 
+  // Función para manejar el like de un artículo
   const handleLike = (articleId: number) => {
     setLikedArticles(prev => {
       const newSet = new Set(prev);
@@ -118,6 +207,7 @@ export const Inicio: React.FC = () => {
     });
   };
 
+  // Función para manejar el guardado de un artículo
   const handleSave = (articleId: number) => {
     setSavedArticles(prev => {
       const newSet = new Set(prev);
@@ -130,6 +220,7 @@ export const Inicio: React.FC = () => {
     });
   };
 
+  // Función para manejar el compartir de un artículo
   const handleShare = (article: any) => {
     if (navigator.share) {
       navigator.share({
@@ -143,11 +234,13 @@ export const Inicio: React.FC = () => {
     }
   };
 
+  // Renderizado del componente con estructura JSX
   return (
-    <div className="container">
-      {/* Main Container */}
+    // Contenedor principal de la página de inicio
+    <div className="container home-page">
+      {/* Contenedor principal con layout de grid */}
       <div className="main-container">
-        {/* Sidebar Left */}
+        {/* Barra lateral izquierda con widgets */}
         <aside className="sidebar-left">
           {/* Search */}
           <div className="sidebar-section">
@@ -207,11 +300,11 @@ export const Inicio: React.FC = () => {
                 alt="Newsletter" 
               />
               <div className="newsletter-actions">
-                <button className="newsletter-btn like-btn">
+                <button className="featured-btn like-btn">
                   <Heart size={16} />
                   Me gustó
                 </button>
-                <button className="newsletter-btn share-btn">
+                <button className="featured-btn share-btn">
                   <Share2 size={16} />
                   Compartir
                 </button>
@@ -231,16 +324,36 @@ export const Inicio: React.FC = () => {
           <div className="sidebar-section">
             <h3>Redes</h3>
             <div className="networks-tags">
-              <span className="network-tag">DEPORTES</span>
-              <span className="network-tag">REPORTES</span>
-              <span className="network-tag">CULTURA</span>
-              <span className="network-tag">BIENESTAR</span>
+              <span className="network-tag">Instagram</span>
+              <span className="network-tag">Tik-Tok</span>
+              <span className="network-tag">Twitter</span>
+              <span className="network-tag">Facebook</span>
             </div>
           </div>
         </aside>
 
-        {/* Main Content */}
+        {/* Contenido principal con carrusel y secciones */}
         <main className="main-content">
+          {/* Sección de carrusel destacado */}
+          <section className="featured-section">
+            <Carousel autoplay>
+              {featuredNewsHome.map((item) => (
+                <div key={item.id} className="featured-card">
+                  <img
+                    src={item.image}
+                    alt={item.title}
+                    className="featured-image"
+                  />
+                  <div className="featured-overlay" />
+                  <div className="featured-content">
+                     <span className="featured-category">{item.category}</span>
+                     <h2 className="featured-title">{item.title}</h2>
+                  </div>
+                </div>
+              ))}
+            </Carousel>
+          </section>
+          {/* Secciones principales de contenido */}
           <div className="main-sections">
             {/* Sports Section */}
             <section className="content-section">
@@ -274,14 +387,15 @@ export const Inicio: React.FC = () => {
               </div>
             </section>
 
-            {/* Main News */}
+            {/* Sección de noticias principales */}
             <section className="news-section">
               <h2>Noticias Relevantes</h2>
+              {/* Grid de tarjetas de noticias */}
               <div className="news-grid">
                 {noticiasRelevantes.map((noticia) => (
                   <article key={noticia.id} className="news-card">
-                    <img 
-                      src={noticia.imagen} 
+                    <img
+                      src={noticia.imagen}
                       alt={noticia.titulo}
                       className="news-image"
                     />
@@ -293,8 +407,9 @@ export const Inicio: React.FC = () => {
                         <span className="news-author">{noticia.autor}</span>
                         <span className="news-date">{noticia.fecha}</span>
                       </div>
+                      {/* Botones de interacción con la noticia */}
                       <div className="news-actions">
-                        <button 
+                        <button
                           onClick={() => handleLike(noticia.id)}
                           className={`action-btn like-btn ${likedArticles.has(noticia.id) ? 'active' : ''}`}
                         >
@@ -305,14 +420,14 @@ export const Inicio: React.FC = () => {
                           <MessageCircle size={16} />
                           <span>{noticia.comentarios}</span>
                         </button>
-                        <button 
+                        <button
                           onClick={() => handleShare(noticia)}
                           className="action-btn share-btn"
                         >
                           <Share2 size={16} />
                           <span>{noticia.compartidos}</span>
                         </button>
-                        <button 
+                        <button
                           onClick={() => handleSave(noticia.id)}
                           className={`action-btn save-btn ${savedArticles.has(noticia.id) ? 'active' : ''}`}
                         >
@@ -327,8 +442,9 @@ export const Inicio: React.FC = () => {
           </div>
         </main>
 
-        {/* Sidebar Right */}
+        {/* Barra lateral derecha con widgets adicionales */}
         <aside className="sidebar-right">
+          {/* Últimas noticias */}
           <div className="sidebar-section">
             <h3>Latest News</h3>
             <div className="latest-news">
@@ -345,7 +461,7 @@ export const Inicio: React.FC = () => {
             </div>
           </div>
 
-          {/* Awards */}
+          {/* Premios y reconocimientos */}
           <div className="sidebar-section">
             <h3>Premios</h3>
             <div className="awards-list">
@@ -355,12 +471,12 @@ export const Inicio: React.FC = () => {
             </div>
           </div>
 
-          {/* Weekend Message */}
+          {/* Mensaje motivacional */}
           <div className="sidebar-section weekend-section">
             <div className="weekend-content">
-              <img 
-                src="https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" 
-                alt="Weekend" 
+              <img
+                src="https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
+                alt="Weekend"
               />
               <div className="weekend-text">
                 <h3>VAS A LOGRAR GRANDES COSAS</h3>
@@ -370,15 +486,18 @@ export const Inicio: React.FC = () => {
         </aside>
       </div>
 
-      {/* Footer */}
+      {/* Pie de página con información de contacto y redes sociales */}
       <footer className="footer">
         <div className="footer-inner">
+          {/* Decoración izquierda del footer */}
           <div className="footer-lateral-izquierda">
-            <img src={imagenIzquierda} alt="Imagen Izquierda" />
+            <img src={s4} alt="decor-left" />
           </div>
+          {/* Contenido principal del footer */}
           <div className="footer-content">
             <h2 className="footer-title">SN-52</h2>
             <div className="footer-social-and-contact">
+              {/* Enlaces a redes sociales */}
               <div className="footer-social">
                 {Object.entries(iconosRedes).map(([key, url]) => (
                   <a key={key} href="#" target="_blank" rel="noopener noreferrer">
@@ -386,6 +505,7 @@ export const Inicio: React.FC = () => {
                   </a>
                 ))}
               </div>
+              {/* Información de contacto */}
               <div className="footer-contact">
                 <a href="mailto:SN_52@SENA.com">SN_52@SENA.com</a>
                 <span className="footer-sep">·</span>
@@ -393,8 +513,9 @@ export const Inicio: React.FC = () => {
               </div>
             </div>
           </div>
+          {/* Decoración derecha del footer */}
           <div className="footer-lateral-derecha">
-            <img src={imagenDerecha} alt="Imagen Derecha" />
+            <img src={s3} alt="decor-right" />
           </div>
         </div>
       </footer>

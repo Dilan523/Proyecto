@@ -85,8 +85,8 @@ html, body {
   padding: 12px;
   border-radius: 10px;
   border: none;
-  background: #00a884;
-  color: white;
+  background: rgba(255, 255, 255, 0.5);
+  color: #000;
   font-weight: 700;
   cursor: pointer;
   width: 100%;
@@ -94,7 +94,8 @@ html, body {
 }
 
 .login-btn:hover {
-  background: #008f6b;
+  background: #21b0a6;
+  color: #fff;
 }
 
 .register-text {
@@ -132,10 +133,13 @@ html, body {
 }
 .dere-arriba {
   position: absolute;
-  left: 0;
-  top: 78%;
-  max-width: 800px;
-  z-index: 1;
+  left: 78%;
+  top: 45%;
+  transform: translateY(-50%) translateX(-200px); /* Ajusta posición y mueve fuera del contenedor */
+  max-width: 600px;
+  width: 100%;
+  height: auto;
+  z-index: 1; 
 }
 
 /* ========== Responsive ========== */

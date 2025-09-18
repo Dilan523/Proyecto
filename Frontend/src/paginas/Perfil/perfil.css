@@ -37,6 +37,8 @@
   align-items: flex-start;
   justify-content: space-between;
   gap: 30px;
+  position: relative;
+  z-index: 10;
 }
 
 /* Contenedor foto */
@@ -45,6 +47,8 @@
   margin-top: 60px;
   flex-direction: column;
   align-items: center;
+  position: relative;
+  z-index: 10;
 }
 
 .upload-box {
@@ -138,8 +142,8 @@
 
 .form-btn {
   margin-top: 25px;
-  background: #00a884;
-  color: rgb(137, 217, 166);
+  background: rgba(255, 255, 255, 0.5);
+  color: #000;
   border: none;
   padding: 12px;
   border-radius: 8px;
@@ -168,7 +172,8 @@
 
 
 .form-btn:hover {
-  background: #008f6b;
+  background: #21b0a6;
+  color: #fff;
 }
 
 /* RESPONSIVE */
