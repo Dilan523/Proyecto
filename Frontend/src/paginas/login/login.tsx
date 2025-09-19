@@ -74,12 +74,15 @@ export default function Login() {
           <p className="register-text">
             ¿No tienes cuenta? <a href="/register">Regístrate aquí</a>
           </p>
+          <p className="RecuperarContra">
+          <a href="/rec_contra">Recuperar Contraseña</a>
+          </p>
         </div>
       </div>
-      <img src={s1} alt="Decoraciones" className="decor-rigth" />
-      <img src={s3} alt="Decoraciones" className="decor-arriba" />
-      <img src={s5} alt="Decoraciones" className="dere-arriba" />
-      <img src={s4} alt="Decoraciones" className="decor-left" />
+      <img src={s1} alt="Decoraciones" className="login-decor-top-right" />
+      <img src={s3} alt="Decoraciones" className="login-decor-top-center" />
+      <img src={s5} alt="Decoraciones" className="login-decor-top-left" />
+      <img src={s4} alt="Decoraciones" className="login-decor-left" />
     </div>
   );
 }

@@ -56,7 +56,7 @@ const Perfil: React.FC = () => {
               onChange={handleFotoChange}
               style={{ display: "none" }}
             />
-            <p className="subtexto">Cambiar Foto</p>
+            <p className="subtexto"></p>
           </div>
 
           <section className="formulario">
@@ -99,9 +99,9 @@ const Perfil: React.FC = () => {
         </div>
       </div>
 
-      <img src={s1} alt="Decoración" className="decor-left" />
-      <img src={s2} alt="decoración 2" className="decor-right" />
-      <img src={s3} alt="decoración 3" className="decor-bottom" />
+      <img src={s1} alt="Decoración" className="perfil-decor-top-left" />
+      <img src={s2} alt="decoración 2" className="perfil-decor-top-right" />
+      <img src={s3} alt="decoración 3" className="perfil-decor-bottom-left" />
     </div>
   );
 };

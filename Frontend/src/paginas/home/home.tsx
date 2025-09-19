@@ -1,48 +1,44 @@
-// Importaciones necesarias para el componente React
-import React, { useState } from "react";
-// Importación de iconos de Lucide para botones de acciones
-import { Heart, MessageCircle, Share2, Bookmark, Search } from "lucide-react";
-// Importación del componente Carousel de Ant Design para el carrusel
-import { Carousel } from 'antd';
-// Importación del archivo de estilos CSS
-import "./home.css";
+import React, { useState } from "react";// Importaciones necesarias para el componente React
+import { Heart, MessageCircle, Share2, Bookmark, Search } from "lucide-react";// Importación de iconos de Lucide para botones de acciones
+import { Carousel } from 'antd';// Importación del componente Carousel de Ant Design para el carrusel
+import "./home.css";// Importación del archivo de estilos CSS
 // Importación de imágenes decorativas para el footer
 import s4 from "../../assets/Img/s4.png";
 import s3 from "../../assets/Img/S3.png";
 
 // Array de objetos que contiene las imágenes destacadas para mostrar en la barra lateral
 const imagenesDestacadas = [
-  { 
-    urlImagen: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80', 
-    alt: 'Análisis de datos', 
+  {
+    urlImagen: 'https://images.unsplash.com/photo-1517077304055-6e89abbf09b0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+    alt: 'Análisis de datos',
     texto: 'Análisis de tendencias tecnológicas',
     categoria: 'TECNOLOGÍA',
     fecha: 'hace 1 día'
   },
-  { 
-    urlImagen: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80', 
-    alt: 'Estudiante', 
+  {
+    urlImagen: 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+    alt: 'Estudiante',
     texto: 'Formación en competencias digitales',
     categoria: 'EDUCACIÓN',
     fecha: 'hace 2 días'
   },
-  { 
-    urlImagen: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80', 
-    alt: 'Trabajo en equipo', 
+  {
+    urlImagen: 'https://images.unsplash.com/photo-1511632765486-a01980e01a18?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+    alt: 'Trabajo en equipo',
     texto: 'Proyectos colaborativos exitosos',
     categoria: 'CULTURA',
     fecha: 'hace 3 días'
   },
-  { 
-    urlImagen: 'https://images.unsplash.com/photo-1560472354-b33ff0c44a43?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80', 
-    alt: 'Innovación', 
+  {
+    urlImagen: 'https://images.unsplash.com/photo-1559136555-9303baea8ebd?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+    alt: 'Innovación',
     texto: 'Nuevas metodologías de enseñanza',
     categoria: 'INNOVACIÓN',
     fecha: 'hace 4 días'
   },
-  { 
-    urlImagen: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80', 
-    alt: 'Laboratorio', 
+  {
+    urlImagen: 'https://images.unsplash.com/photo-1532094349884-543bc11b234d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+    alt: 'Laboratorio',
     texto: 'Laboratorios de última tecnología',
     categoria: 'CIENCIA',
     fecha: 'hace 5 días'
@@ -86,7 +82,7 @@ const noticiasRelevantes = [
     descripcion: "Un grupo de aprendices del SENA desarrolló una app para mejorar la gestión de proyectos educativos.",
     fecha: "2025-09-15",
     autor: "Redacción SN-52",
-    imagen: "https://source.unsplash.com/400x250/?education,technology",
+    imagen: "https://images.unsplash.com/photo-1517077304055-6e89abbf09b0?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=250&q=80",
     categoria: "TECNOLOGÍA",
     resumen: "Aprendices desarrollan aplicación educativa para optimizar proyectos.",
     likes: 10,
@@ -99,7 +95,7 @@ const noticiasRelevantes = [
     descripcion: "El SENA abre inscripciones para más de 20 programas de formación técnica y tecnológica en modalidad virtual.",
     fecha: "2025-09-14",
     autor: "Comunicaciones SENA",
-    imagen: "https://source.unsplash.com/400x250/?online,learning",
+    imagen: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=250&q=80",
     categoria: "EDUCACIÓN",
     resumen: "Convocatoria abierta para programas técnicos y tecnológicos virtuales.",
     likes: 8,
@@ -112,7 +108,7 @@ const noticiasRelevantes = [
     descripcion: "Delegación del SENA obtiene primeros lugares en la competencia de habilidades técnicas a nivel nacional.",
     fecha: "2025-09-13",
     autor: "Equipo SN-52",
-    imagen: "https://source.unsplash.com/400x250/?competition,students",
+    imagen: "https://images.unsplash.com/photo-1511632765486-a01980e01a18?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=250&q=80",
     categoria: "CULTURA",
     resumen: "Aprendices logran primeros puestos en competencias de habilidades técnicas.",
     likes: 15,
@@ -125,7 +121,7 @@ const noticiasRelevantes = [
     descripcion: "Se anunciaron nuevos apoyos para proyectos innovadores en tecnología, agroindustria y sostenibilidad.",
     fecha: "2025-09-12",
     autor: "Redacción SN-52",
-    imagen: "https://source.unsplash.com/400x250/?research,innovation",
+    imagen: "https://images.unsplash.com/photo-1559136555-9303baea8ebd?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=250&q=80",
     categoria: "INNOVACIÓN",
     resumen: "El SENA fortalece el impulso a proyectos de investigación aplicada.",
     likes: 12,
@@ -138,7 +134,7 @@ const noticiasRelevantes = [
     descripcion: "El SENA firmó convenios para fortalecer la empleabilidad de sus aprendices en el sector tecnológico.",
     fecha: "2025-09-11",
     autor: "Comunicaciones SENA",
-    imagen: "https://source.unsplash.com/400x250/?business,technology",
+    imagen: "https://images.unsplash.com/photo-1560472354-b33ff0c44a43?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=250&q=80",
     categoria: "TECNOLOGÍA",
     resumen: "Se consolidan alianzas estratégicas para mejorar la empleabilidad.",
     likes: 20,
@@ -151,7 +147,7 @@ const noticiasRelevantes = [
     descripcion: "Aprendices de diferentes centros presentaron proyectos que aportan soluciones a problemáticas reales.",
     fecha: "2025-09-10",
     autor: "Equipo SN-52",
-    imagen: "https://source.unsplash.com/400x250/?fair,innovation",
+    imagen: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=250&q=80",
     categoria: "INNOVACIÓN",
     resumen: "Se destacan proyectos innovadores en la feria nacional del SENA.",
     likes: 18,
@@ -164,7 +160,7 @@ const noticiasRelevantes = [
     descripcion: "El SENA anunció becas en alianza con instituciones educativas de Europa y América Latina.",
     fecha: "2025-09-09",
     autor: "Redacción SN-52",
-    imagen: "https://source.unsplash.com/400x250/?scholarship,students",
+    imagen: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=250&q=80",
     categoria: "EDUCACIÓN",
     resumen: "Becas internacionales abiertas para aprendices en distintas áreas.",
     likes: 9,
@@ -177,7 +173,7 @@ const noticiasRelevantes = [
     descripcion: "Se fortalecen iniciativas de deporte, cultura y salud para el bienestar integral de la comunidad SENA.",
     fecha: "2025-09-08",
     autor: "Comunicaciones SENA",
-    imagen: "https://source.unsplash.com/400x250/?wellness,students",
+    imagen: "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=250&q=80",
     categoria: "BIENESTAR",
     resumen: "Se impulsan actividades de bienestar integral para la comunidad SENA.",
     likes: 14,
