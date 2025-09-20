@@ -80,3 +80,40 @@ def login(
             rol_id=usuario.rol_id
         )
     )
+
+# Actualizar perfil
+@router.put("/update/{user_id}", response_model=UsuarioOut)
+async def update_user(
+    user_id: int,
+    nombre_usuario: str = Form(...),
+    apellido_usuario: str = Form(...),
+    correo_usuario: str = Form(...),
+    foto_usuario: UploadFile | None = File(None),
+    db: Session = Depends(get_db)
+):
+    usuario = db.query(Usuario).filter(Usuario.id_usuario == user_id).first()
+    if not usuario:
+        raise HTTPException(status_code=404, detail="Usuario no encontrado")
+
+    usuario.nombre_usuario = nombre_usuario
+    usuario.apellido_usuario = apellido_usuario
+    usuario.correo_usuario = correo_usuario
+
+    # Si viene una foto nueva, se guarda y reemplaza
+    if foto_usuario:
+        filename = foto_usuario.filename
+        with open(f"uploads/{filename}", "wb") as f:
+            f.write(await foto_usuario.read())
+        usuario.foto_usuario = filename
+
+    db.commit()
+    db.refresh(usuario)
+
+    return UsuarioOut(
+        id=usuario.id_usuario,
+        nombre=usuario.nombre_usuario,
+        apellidos=usuario.apellido_usuario,
+        correo=usuario.correo_usuario,
+        foto=usuario.foto_usuario,
+        rol_id=usuario.rol_id
+    )

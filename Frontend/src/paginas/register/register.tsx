@@ -159,8 +159,8 @@ const Registro: React.FC = () => {
 
   return (
     <div>
-      <img src={s4} alt="Decoración" className="decor dere-arriba" />
-      <img src={s1} alt="Decoración" className="decor decor-left" />
+      <img src={s4} alt="Decoración" className="register-decor-bottom" />
+      <img src={s1} alt="Decoración" className="register-decor-left" />
       <h1 className="titulo"> FORMULARIO DE REGISTRO</h1>
       <div className="formulario-container">
         <form className="formulario" onSubmit={handleSubmit}>
@@ -197,8 +197,8 @@ const Registro: React.FC = () => {
           </div>
         </form>
       </div>
-      <img src={s2} alt="Decoración" className="decor decor-right" />
-      <img src={s5} alt="Decoración" className="decor decor-arriba" />
+      <img src={s2} alt="Decoración" className="register-decor-right" />
+      <img src={s5} alt="Decoración" className="register-decor-top" />
     </div>
   );
 };

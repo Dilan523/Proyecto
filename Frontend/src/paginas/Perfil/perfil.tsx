@@ -9,6 +9,7 @@ import { UserContext } from "../../context/UserContext";
 const Perfil: React.FC = () => {
   const { user, setUser } = useContext(UserContext);
   const [foto, setFoto] = useState<string>(perfilDefault);
+  const [fotoFile, setFotoFile] = useState<File | null>(null);
   const [nombre, setNombre] = useState<string>("");
   const [apellidos, setApellidos] = useState<string>("");
   const [email, setEmail] = useState<string>("");
@@ -25,13 +26,51 @@ const Perfil: React.FC = () => {
   const handleFotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
+      setFotoFile(file);
       const reader = new FileReader();
       reader.onload = () => {
         setFoto(reader.result as string);
-        if (user) setUser({ ...user, foto: file.name }); // actualiza contexto
-        localStorage.setItem("user", JSON.stringify({ ...user, foto: file.name }));
       };
       reader.readAsDataURL(file);
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!user) return;
+
+    const formData = new FormData();
+    formData.append("nombre_usuario", nombre);
+    formData.append("apellido_usuario", apellidos);
+    formData.append("correo_usuario", email);
+    if (fotoFile) formData.append("foto_usuario", fotoFile);
+
+    try {
+      const res = await fetch(`http://localhost:8000/auth/update/${user.id}`, {
+        method: "PUT",
+        body: formData,
+      });
+
+      if (!res.ok) throw new Error("Error al actualizar perfil");
+
+      const data = await res.json();
+
+      // Actualizamos contexto y localStorage
+      const updatedUser = {
+        ...user,
+        nombre: data.nombre,
+        apellidos: data.apellidos,
+        email: data.correo,
+        foto: data.foto,
+      };
+
+      setUser(updatedUser);
+      localStorage.setItem("user", JSON.stringify(updatedUser));
+
+      alert("Perfil actualizado con éxito ✅");
+    } catch (error) {
+      console.error(error);
+      alert("Hubo un error al actualizar perfil ❌");
     }
   };
 
@@ -56,11 +95,10 @@ const Perfil: React.FC = () => {
               onChange={handleFotoChange}
               style={{ display: "none" }}
             />
-            <p className="subtexto">Cambiar Foto</p>
           </div>
 
           <section className="formulario">
-            <form>
+            <form onSubmit={handleSubmit}>
               <label htmlFor="nombre">Nombre</label>
               <input
                 id="nombre"
@@ -99,9 +137,9 @@ const Perfil: React.FC = () => {
         </div>
       </div>
 
-      <img src={s1} alt="Decoración" className="decor-left" />
-      <img src={s2} alt="decoración 2" className="decor-right" />
-      <img src={s3} alt="decoración 3" className="decor-bottom" />
+      <img src={s1} alt="Decoración" className="perfil-decor-top-left" />
+      <img src={s2} alt="decoración 2" className="perfil-decor-top-right" />
+      <img src={s3} alt="decoración 3" className="perfil-decor-bottom-left" />
     </div>
   );
 };

@@ -5,7 +5,7 @@ import s1 from "../../assets/Img/S1.png";
 import s3 from "../../assets/Img/S3.png";
 import s4 from "../../assets/Img/S4.png";
 import s5 from "../../assets/Img/S5.png";
-import { UserContext } from "../../context/UserContext";
+import { UserContext, type Role, type User } from "../../context/UserContext";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -30,9 +30,23 @@ export default function Login() {
 
       const data = await res.json();
 
+      // Mapear rol_id a rol legible
+      let rol: Role = "lector";
+      if (data.usuario.rol_id === 2) rol = "escritor";
+      if (data.usuario.rol_id === 3) rol = "editor";
+
+      const usuarioConRol: User = {
+        id: data.usuario.id.toString(),
+        nombre: data.usuario.nombre,
+        apellidos: data.usuario.apellidos,
+        email: data.usuario.correo,
+        foto: data.usuario.foto,
+        rol,
+      };
+
       // Guardamos usuario y token
-      setUser(data.usuario);
-      localStorage.setItem("user", JSON.stringify(data.usuario));
+      setUser(usuarioConRol);
+      localStorage.setItem("user", JSON.stringify(usuarioConRol));
       localStorage.setItem("token", data.access_token);
 
       navigate("/"); // Redirige al inicio
@@ -74,12 +88,15 @@ export default function Login() {
           <p className="register-text">
             ¿No tienes cuenta? <a href="/register">Regístrate aquí</a>
           </p>
+          <p className="RecuperarContra">
+            <a href="/rec_contra">Recuperar Contraseña</a>
+          </p>
         </div>
       </div>
-      <img src={s1} alt="Decoraciones" className="decor-rigth" />
-      <img src={s3} alt="Decoraciones" className="decor-arriba" />
-      <img src={s5} alt="Decoraciones" className="dere-arriba" />
-      <img src={s4} alt="Decoraciones" className="decor-left" />
+      <img src={s1} alt="Decoraciones" className="login-decor-top-right" />
+      <img src={s3} alt="Decoraciones" className="login-decor-top-center" />
+      <img src={s5} alt="Decoraciones" className="login-decor-top-left" />
+      <img src={s4} alt="Decoraciones" className="login-decor-left" />
     </div>
   );
 }

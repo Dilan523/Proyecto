@@ -170,7 +170,7 @@
 }
 
 .action-btn:hover {
-  background-color: #adedcba4;
+  background-color: #edbcada4;
 }
 
 /* Botones activos */
@@ -410,3 +410,19 @@
   background-color: #adedcba4;
 }
 
+.btn-agregar {
+  background: #fff;
+  color: #222;
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.btn-agregar:hover {
+  background: #0dc0ba;
+  color: #fff;
+}

@@ -18,25 +18,49 @@ interface UserContextType {
   logout: () => void;
 }
 
-// Contexto
 export const UserContext = createContext<UserContextType>({
   user: null,
   setUser: () => {},
   logout: () => {},
 });
 
-// Proveedor
 export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUserState] = useState<User | null>(null);
+
+  // wrapper de setUser que persiste en localStorage
+  const setUser: React.Dispatch<React.SetStateAction<User | null>> = (u) => {
+    if (typeof u === "function") {
+      setUserState(prev => {
+        const newUser = u(prev);
+        if (newUser) localStorage.setItem("user", JSON.stringify(newUser));
+        else localStorage.removeItem("user");
+        return newUser;
+      });
+    } else {
+      if (u) localStorage.setItem("user", JSON.stringify(u));
+      else localStorage.removeItem("user");
+      setUserState(u);
+    }
+  };
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
-    if (storedUser) setUser(JSON.parse(storedUser));
+    if (storedUser) {
+      const parsedUser = JSON.parse(storedUser);
+      // si no tiene rol, mapearlo desde rol_id
+      if (!parsedUser.rol) {
+        let rol: Role = "lector";
+        if (parsedUser.rol_id === 2) rol = "escritor";
+        if (parsedUser.rol_id === 3) rol = "editor";
+        parsedUser.rol = rol;
+        localStorage.setItem("user", JSON.stringify(parsedUser));
+      }
+      setUser(parsedUser);
+    }
   }, []);
 
   const logout = () => {
     setUser(null);
-    localStorage.removeItem("user");
     localStorage.removeItem("token");
   };
 

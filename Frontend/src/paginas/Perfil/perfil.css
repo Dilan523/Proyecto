@@ -1,20 +1,17 @@
-
-/* Contenedor del perfil */
 .perfil-container {
   background: #fff;
   padding: 20px 30px;
   border-radius: 12px;
   box-shadow: 0 4px 8px rgba(0,0,0,0.1);
   max-width: 1000px;
-  width: 1000%;
-  margin: center;
+  width: 100%;
+  margin: 0 auto;
 }
 .app{
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 50px;
-  padding-left: 50px;
 }
 
 .perfil-header {
@@ -115,6 +112,7 @@
 .formulario form {
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
 }
 
 .formulario label {
@@ -142,7 +140,7 @@
 
 .form-btn {
   margin-top: 25px;
-  background: rgba(255, 255, 255, 0.5);
+  background: #b2d8d8;
   color: #000;
   border: none;
   padding: 12px;
@@ -172,8 +170,35 @@
 
 
 .form-btn:hover {
-  background: #21b0a6;
+  background: #1a8f8f;
   color: #fff;
+}
+
+/* Responsive para el formulario */
+@media (max-width: 768px) {
+  .perfil-content {
+    flex-direction: column;
+    align-items: center;
+    padding-left: 0;
+    text-align: center;
+  }
+ }
+
+
+/* Responsive para el formulario */
+@media (max-width: 768px) {
+  .formulario form {
+    gap: 20px;
+  }
+  
+  .formulario input {
+    padding: 14px 16px;
+  }
+  
+  .form-btn {
+    align-self: stretch; /* Full width en móvil */
+    padding: 16px 24px;
+  }
 }
 
 /* RESPONSIVE */
@@ -194,43 +219,54 @@
   }
 }
 
-/*decoraciones de las imagenes */
-.decor-right {
+/*decoraciones de las imagenes perfil */
+.perfil-decor-top-left {
   position: absolute;
-  left: 78%;
-  top: 45%;
-  transform: translateY(-50%) translateX(-200px); /* Ajusta posición y mueve fuera del contenedor */
-  max-width: 600px;
+  top: 5%;
+  left: -200px;
+  max-width: 380px;
   width: 100%;
   height: auto;
-  z-index: 1; 
+  transform: translate(0, 0);
+  transition: transform 0.3s ease-in-out;
+  z-index: 1;
 }
-.decor-right{
+.perfil-decor-top-right {
   position: absolute;
-  left: 86%;
-  top: 40%;
-  max-width: 500px;
+  top: -60px;
+  right: -100px;
+  max-width: 400px;
   width: 100%;
   height: auto;
+  transform: translate(0, 0);
+  transition: transform 0.3s ease-in-out;
+  z-index: 1;
 }
-.decor-right{
-    position: absolute;
-    transform: translate(30px, 50px) rotate(180deg);
-    transition: transform 0.3s ease-in-out; /* animación opcional */
-}
-.decor-left{
-    position: absolute;
-    transition: transform 0.3s ease-in-out; /* animación opcional */
-}
-.dere-bottom{
-    position: absolute;
-    transform: rotate(20deg) translateX(-130px);
-    transition: transform 0.7s ease-in-out; /* animación opcional */
-}
-.decor-bottom {
+.perfil-decor-bottom-left {
   position: absolute;
-  left: 86%;
-  top: 4%;
-  z-index: 1; 
-  transform: translateY(-30%) translateX(-6%)
+  bottom: -55px;
+  left: -80px;
+  max-width: 280px;
+  width: 100%;
+  height: auto;
+  transform: translate(0, 0);
+  transition: transform 0.3s ease-in-out;
+  z-index: 1;
+}
+
+/* Responsive adjustments for decorative images */
+@media (max-width: 768px) {
+  .perfil-decor-top-left,
+  .perfil-decor-top-right,
+  .perfil-decor-bottom-left {
+    max-width: 200px;
+  }
+}
+
+@media (max-width: 480px) {
+  .perfil-decor-top-left,
+  .perfil-decor-top-right,
+  .perfil-decor-bottom-left {
+    display: none;
+  }
 }
