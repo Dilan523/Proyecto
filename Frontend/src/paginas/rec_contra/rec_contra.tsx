@@ -1,33 +1,63 @@
+import { useState } from "react";
 import s1 from "../../assets/Img/S1.png";
 import s2 from "../../assets/Img/S2.png";
 import s5 from "../../assets/Img/s5.png";
 import "./rec_contra.css";
 
 export default function RecuperarContraseña() {
+  const [email, setEmail] = useState<string>("");
+  const [mensaje, setMensaje] = useState<string>("");
+  const [error, setError] = useState<string>("");
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setMensaje("");
+    setError("");
+
+    try {
+      const response = await fetch("http://127.0.0.1:8000/auth/recuperar-password", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        // Mostramos el token directamente
+        setMensaje(`Token generado: ${data.token}`);
+      } else {
+        setError(data.detail || "Ocurrió un error, intenta nuevamente");
+      }
+    } catch {
+      setError("No se pudo conectar con el servidor");
+    }
+  };
+
   return (
     <div className="page">
-      {/* Título */}
       <h1 className="title">Recuperar Contraseña</h1>
-      {/* Contenedor principal */}
       <div className="form-container">
-        {/* Adornos en cada esquina */}
-        <img src={s1} alt="Adorno superior izquierdo" className="adorno adorno-top-left" />
-        <img src={s2} alt="Adorno superior derecho" className="adorno adorno-top-right" />
-        <img src={s5} alt="Adorno inferior izquierdo" className="adorno adorno-bottom-left" />
-        <img src={s5} alt="Adorno inferior derecho" className="adorno adorno-bottom-right" />
+        <img src={s1} alt="Adorno" className="adorno adorno-top-left" />
+        <img src={s2} alt="Adorno" className="adorno adorno-top-right" />
+        <img src={s5} alt="Adorno" className="adorno adorno-bottom-left" />
+        <img src={s5} alt="Adorno" className="adorno adorno-bottom-right" />
 
-        {/* Formulario */}
-        <form className="login-form">
+        <form className="login-form" onSubmit={handleSubmit}>
           <label htmlFor="email">Email</label>
-          <input type="email" id="email" placeholder="example@domain.com" />
-
-          <label htmlFor="password">Password</label>
-          <input type="password" id="password" placeholder="********" />
-
-          <button className="log" type="submit">
-            <span>Login</span>
-          </button>
+          <input
+            type="email"
+            id="email"
+            placeholder="example@domain.com"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+          <button className="log" type="submit"><span>Enviar</span></button>
         </form>
+
+        {mensaje && <p className="success-msg">{mensaje}</p>}
+        {error && <p className="error-msg">{error}</p>}
       </div>
     </div>
   );
