@@ -1,15 +1,16 @@
 # usuarios_controller.py
-from fastapi import APIRouter, Depends, HTTPException, status, UploadFile, File, Form
+from fastapi import APIRouter, Depends, HTTPException, status, UploadFile, File, Form, Body
 from sqlalchemy.orm import Session
 from db import get_db
 from models.usuario import Usuario
-from models.schemas import UsuarioOut, TokenResponse
+from models.schemas import UsuarioOut, TokenResponse, RecuperarPasswordRequest
 from security.passwords import encriptar_contrasena, verificar_contrasena
 from security.jwt import crear_token
+import uuid
 
 router = APIRouter(prefix="/auth", tags=["Autenticación"])
 
-# Registro
+# ----------------- Registro -----------------
 @router.post("/register", response_model=UsuarioOut)
 async def register(
     nombre_usuario: str = Form(...),
@@ -20,7 +21,6 @@ async def register(
     foto_usuario: UploadFile | None = File(None),
     db: Session = Depends(get_db)
 ):
-    # Validar si el correo ya existe
     if db.query(Usuario).filter(Usuario.correo_usuario == correo_usuario).first():
         raise HTTPException(status_code=400, detail="Correo ya registrado")
 
@@ -39,7 +39,6 @@ async def register(
     db.commit()
     db.refresh(nuevo_usuario)
 
-    # Guardar archivo si hay foto
     if foto_usuario:
         with open(f"uploads/{foto_usuario.filename}", "wb") as f:
             f.write(await foto_usuario.read())
@@ -53,7 +52,7 @@ async def register(
         rol_id=nuevo_usuario.rol_id
     )
 
-# Login
+# ----------------- Login -----------------
 @router.post("/login", response_model=TokenResponse)
 def login(
     correo_usuario: str = Form(...),
@@ -81,7 +80,7 @@ def login(
         )
     )
 
-# Actualizar perfil
+# ----------------- Actualizar perfil -----------------
 @router.put("/update/{user_id}", response_model=UsuarioOut)
 async def update_user(
     user_id: int,
@@ -99,7 +98,6 @@ async def update_user(
     usuario.apellido_usuario = apellido_usuario
     usuario.correo_usuario = correo_usuario
 
-    # Si viene una foto nueva, se guarda y reemplaza
     if foto_usuario:
         filename = foto_usuario.filename
         with open(f"uploads/{filename}", "wb") as f:
@@ -117,3 +115,37 @@ async def update_user(
         foto=usuario.foto_usuario,
         rol_id=usuario.rol_id
     )
+
+# ----------------- Recuperar contraseña (demo) -----------------
+@router.post("/recuperar-password")
+async def recuperar_password(req: RecuperarPasswordRequest, db: Session = Depends(get_db)):
+    usuario = db.query(Usuario).filter(Usuario.correo_usuario == req.email).first()
+    if not usuario:
+        raise HTTPException(status_code=404, detail="Usuario no encontrado")
+
+    token = str(uuid.uuid4())
+    usuario.reset_token = token
+    db.commit()
+
+    # Devolvemos el token directamente para la demo
+    return {
+        "msg": "Token generado. Úsalo para restablecer tu contraseña",
+        "token": token
+    }
+
+# ----------------- Restablecer contraseña -----------------
+@router.post("/reset-password")
+def reset_password(
+    token: str = Body(...),
+    nueva_password: str = Body(...),
+    db: Session = Depends(get_db)
+):
+    usuario = db.query(Usuario).filter(Usuario.reset_token == token).first()
+    if not usuario:
+        raise HTTPException(status_code=400, detail="Token inválido")
+
+    usuario.contrasena_usuario = encriptar_contrasena(nueva_password)
+    usuario.reset_token = None
+    db.commit()
+
+    return {"msg": "Contraseña actualizada correctamente"}

@@ -1,3 +1,4 @@
+# usuario.py
 from db import Base
 from sqlalchemy import Column, Integer, String, ForeignKey
 from sqlalchemy.orm import relationship
@@ -14,5 +15,6 @@ class Usuario(Base):
 
     rol_id = Column(Integer, ForeignKey("roles.id_rol"), nullable=False)
     rol = relationship("Rol", back_populates="usuarios")
-
     comentarios = relationship("Comentario", back_populates="usuario")
+
+    reset_token = Column(String(255), nullable=True)  # <-- Campo para recuperación
