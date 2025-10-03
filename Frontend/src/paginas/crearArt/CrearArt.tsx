@@ -1,21 +1,26 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useContext } from "react";
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
-import { 
-  Bold, 
-  Italic, 
-  List, 
-  Heading2, 
-  Upload, 
-  Save, 
+import {
+  Bold,
+  Italic,
+  List,
+  Heading2,
+  Upload,
+  Save,
   Send,
   X,
   Plus,
   Eye
 } from "lucide-react";
+import { UserContext } from "../../context/UserContextValue";
+import { crearNoticia } from "../../services/noticias";
+import { useAlert } from "../../hooks/useAlert";
 import "./CrearArt.css";
 
 const CrearArt: React.FC = () => {
+  const { user } = useContext(UserContext);
+  const { showAlert } = useAlert();
   const [titulo, setTitulo] = useState<string>("");
   const [categoria, setCategoria] = useState<string>("");
   const [fecha, setFecha] = useState<string>("");
@@ -27,7 +32,7 @@ const CrearArt: React.FC = () => {
   const [nuevaEtiqueta, setNuevaEtiqueta] = useState<string>("");
   const [previewMode, setPreviewMode] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  
+
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Configuración del editor Tiptap con más funcionalidades
@@ -53,13 +58,13 @@ const CrearArt: React.FC = () => {
       
       // Validar tamaño de archivo (máximo 5MB)
       if (file.size > 5 * 1024 * 1024) {
-        alert("El archivo es muy grande. Máximo 5MB permitido.");
+        showAlert("El archivo es muy grande. Máximo 5MB permitido.", "error");
         return;
       }
 
       // Validar tipo de archivo
       if (!file.type.startsWith('image/')) {
-        alert("Por favor selecciona un archivo de imagen válido.");
+        showAlert("Por favor selecciona un archivo de imagen válido.", "error");
         return;
       }
 
@@ -105,19 +110,19 @@ const CrearArt: React.FC = () => {
 
   const validarFormulario = (): boolean => {
     if (!titulo.trim()) {
-      alert("Por favor ingresa un título para el artículo.");
+      showAlert("Por favor ingresa un título para el artículo.", "error");
       return false;
     }
     if (!categoria) {
-      alert("Por favor selecciona una categoría.");
+      showAlert("Por favor selecciona una categoría.", "error");
       return false;
     }
     if (!fecha) {
-      alert("Por favor selecciona una fecha de publicación.");
+      showAlert("Por favor selecciona una fecha de publicación.", "error");
       return false;
     }
     if (!editor?.getText().trim() || editor.getText().trim() === "Escribe tu artículo aquí...") {
-      alert("Por favor escribe el contenido del artículo.");
+      showAlert("Por favor escribe el contenido del artículo.", "error");
       return false;
     }
     return true;
@@ -131,38 +136,28 @@ const CrearArt: React.FC = () => {
     setIsLoading(true);
 
     try {
-      const formData = new FormData();
-      formData.append("titulo", titulo.trim());
-      formData.append("categoria", categoria);
-      formData.append("fecha", fecha);
-      formData.append("etiquetas", JSON.stringify(etiquetas));
+      const noticiaData = {
+        titulo: titulo.trim(),
+        contenido: editor?.getHTML() || "",
+        contenidoTexto: editor?.getText() || "",
+        categoria,
+        fecha,
+        imagen: imagenPreview || undefined,
+        etiquetas,
+        autor: user ? `${user.nombre} ${user.apellidos}` : "Usuario Anónimo",
+        estado: (publicado ? "publicado" : "borrador") as "publicado" | "borrador"
+      };
 
-      if (editor) {
-        formData.append("contenido", editor.getHTML());
-        formData.append("contenidoTexto", editor.getText());
-      }
+      await crearNoticia(noticiaData);
 
-      formData.append("publicado", String(publicado));
-      formData.append("borrador", String(borrador));
+      showAlert("¡Artículo publicado exitosamente!", "success");
 
-      if (imagen) formData.append("imagen", imagen);
-
-      console.log("Datos del formulario a enviar:");
-      for (let [key, value] of formData.entries()) {
-        console.log(`${key}:`, value);
-      }
-
-      // Simular envío
-      await new Promise(resolve => setTimeout(resolve, 2000));
-
-      alert("¡Artículo publicado exitosamente!");
-      
       // Limpiar formulario
       limpiarFormulario();
 
     } catch (error) {
       console.error("Error al enviar el artículo:", error);
-      alert("Hubo un error al publicar el artículo. Intenta nuevamente.");
+      showAlert("Hubo un error al publicar el artículo. Intenta nuevamente.", "error");
     } finally {
       setIsLoading(false);
     }
@@ -170,7 +165,7 @@ const CrearArt: React.FC = () => {
 
   const guardarBorrador = async () => {
     if (!titulo.trim()) {
-      alert("Por favor ingresa al menos un título para guardar el borrador.");
+      showAlert("Por favor ingresa al menos un título para guardar el borrador.", "error");
       return;
     }
 
@@ -192,10 +187,10 @@ const CrearArt: React.FC = () => {
       
       await new Promise(resolve => setTimeout(resolve, 1000));
       
-      alert("Borrador guardado exitosamente.");
+      showAlert("Borrador guardado exitosamente.", "success");
     } catch (error) {
       console.error("Error al guardar borrador:", error);
-      alert("Error al guardar el borrador.");
+      showAlert("Error al guardar el borrador.", "error");
     } finally {
       setIsLoading(false);
     }

@@ -9,25 +9,30 @@ import CrearArt from "./paginas/crearArt/CrearArt";
 import Deportes from "./paginas/Deportes/deportes";
 import PublicLayout from "./Layout/PublicLayout";
 import AuthLayout from "./Layout/AuthLayout";
+import { AlertProvider } from "./context/AlertContext";
+import Alert from "./components/Alert";
 
 export default function App() {
   return (
-    <Routes>
-      <Route element={<PublicLayout />}>
-        <Route index element={<Home />} />
-        <Route path="deportes" element={<Deportes />} />
-        <Route path="arte" element={<h1>Arte</h1>} />
-        <Route path="cultura" element={<h1>Cultura</h1>} />
-        <Route path="bienestar" element={<h1>Bienestar</h1>} />
-      </Route>
+    <AlertProvider>
+      <Routes>
+        <Route element={<PublicLayout />}>
+          <Route index element={<Home />} />
+          <Route path="deportes" element={<Deportes />} />
+          <Route path="arte" element={<h1>Arte</h1>} />
+          <Route path="cultura" element={<h1>Cultura</h1>} />
+          <Route path="bienestar" element={<h1>Bienestar</h1>} />
+        </Route>
 
-      <Route element={<AuthLayout />}>
-        <Route path="login" element={<Login />} />
-        <Route path="register" element={<Registro />} />
-        <Route path="rec_contra" element={<RecuperarContraseña />} />
-        <Route path="perfil" element={<Perfil />} />
-        <Route path="crearArt" element={<CrearArt />} />
-      </Route>
-    </Routes>
+        <Route element={<AuthLayout />}>
+          <Route path="login" element={<Login />} />
+          <Route path="register" element={<Registro />} />
+          <Route path="rec_contra" element={<RecuperarContraseña />} />
+          <Route path="perfil" element={<Perfil />} />
+          <Route path="crearArt" element={<CrearArt />} />
+        </Route>
+      </Routes>
+      <Alert />
+    </AlertProvider>
   );
 }

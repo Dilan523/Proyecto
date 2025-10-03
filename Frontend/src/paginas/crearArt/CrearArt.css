@@ -240,10 +240,10 @@ div.header-section {
 
 .add-tag-btn {
   background: var(--primary-color);
-  color: white;
+  color: rgb(163, 224, 188);
   border: 2px solid var(--gray-200);
   border-radius: var(--border-radius);
-  padding: 0.875rem;
+  padding: 0.875rem;  
   display: flex;
   align-items: center;
   justify-content: center;
@@ -273,8 +273,8 @@ div.header-section {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  background: var(--primary-color);
-  color: white;
+  background: rgba(6, 212, 212, 0.122);
+  color: rgb(2, 2, 2);
   padding: 0.375rem 0.75rem;
   border-radius: 20px;
   font-size: 0.85rem;
@@ -282,8 +282,7 @@ div.header-section {
 }
 
 .remove-tag-btn {
-  background: rgba(118, 235, 8, 0.2);
-  color: white;
+  background: rgba(110, 229, 217, 0.532);
   border: none;
   border-radius: 50%;
   width: 18px;

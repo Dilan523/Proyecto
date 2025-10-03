@@ -1,10 +1,13 @@
-import React, { useState } from "react";// Importaciones necesarias para el componente React
+import React, { useState, useEffect } from "react";// Importaciones necesarias para el componente React
 import { Heart, MessageCircle, Share2, Bookmark, Search } from "lucide-react";// Importación de iconos de Lucide para botones de acciones
 import { Carousel } from 'antd';// Importación del componente Carousel de Ant Design para el carrusel
+import { getNoticiasCreadas, toggleLikeNoticia, toggleSaveNoticia, shareNoticia } from "../../services/noticias";
+import type { Noticia } from "../../services/noticias";
 import "./home.css";// Importación del archivo de estilos CSS
 // Importación de imágenes decorativas para el footer
 import s4 from "../../assets/Img/s4.png";
 import s3 from "../../assets/Img/S3.png";
+import CommentsModal from "../../components/CommentsModal";
 
 // Array de objetos que contiene las imágenes destacadas para mostrar en la barra lateral
 const imagenesDestacadas = [
@@ -73,7 +76,6 @@ const featuredNewsHome = [
   }
 ];
 
-// Array de objetos que contiene las noticias relevantes para mostrar en la sección principal
 // Array de objetos que contiene las noticias relevantes para mostrar en la sección principal
 const noticiasRelevantes = [
   {
@@ -182,16 +184,37 @@ const noticiasRelevantes = [
   },
 ];
 
-
 // Definición del componente funcional Inicio usando React.FC
 export const Inicio: React.FC = () => {
   // Estados para manejar artículos marcados como me gusta, guardados y término de búsqueda
   const [likedArticles, setLikedArticles] = useState<Set<number>>(new Set());
   const [savedArticles, setSavedArticles] = useState<Set<number>>(new Set());
   const [searchTerm, setSearchTerm] = useState("");
+  const [showCommentsModal, setShowCommentsModal] = useState(false);
+  const [selectedNoticia, setSelectedNoticia] = useState<any>(null);
+  const [noticiasCreadas, setNoticiasCreadas] = useState<Noticia[]>([]);
+
+  // Cargar noticias creadas al montar el componente
+  useEffect(() => {
+    const cargarNoticias = () => {
+      const noticias = getNoticiasCreadas();
+      setNoticiasCreadas(noticias);
+    };
+
+    cargarNoticias();
+
+    // Recargar noticias cuando cambie el localStorage (útil para desarrollo)
+    const handleStorageChange = () => {
+      cargarNoticias();
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+    return () => window.removeEventListener('storage', handleStorageChange);
+  }, []);
 
   // Función para manejar el like de un artículo
   const handleLike = (articleId: number) => {
+    toggleLikeNoticia(articleId);
     setLikedArticles(prev => {
       const newSet = new Set(prev);
       if (newSet.has(articleId)) {
@@ -205,6 +228,7 @@ export const Inicio: React.FC = () => {
 
   // Función para manejar el guardado de un artículo
   const handleSave = (articleId: number) => {
+    toggleSaveNoticia(articleId);
     setSavedArticles(prev => {
       const newSet = new Set(prev);
       if (newSet.has(articleId)) {
@@ -218,16 +242,19 @@ export const Inicio: React.FC = () => {
 
   // Función para manejar el compartir de un artículo
   const handleShare = (article: any) => {
-    if (navigator.share) {
-      navigator.share({
-        title: article.titulo,
-        text: article.resumen,
-        url: window.location.href
-      });
-    } else {
-      navigator.clipboard.writeText(window.location.href);
-      alert('Enlace copiado al portapapeles');
-    }
+    shareNoticia(article);
+  };
+
+  // Función para abrir el modal de comentarios
+  const handleOpenComments = (noticia: any) => {
+    setSelectedNoticia(noticia);
+    setShowCommentsModal(true);
+  };
+
+  // Función para cerrar el modal de comentarios
+  const handleCloseComments = () => {
+    setShowCommentsModal(false);
+    setSelectedNoticia(null);
   };
 
   // Renderizado del componente con estructura JSX
@@ -257,9 +284,9 @@ export const Inicio: React.FC = () => {
           <div className="sidebar-section">
             <h3>Featured Article</h3>
             <div className="featured-preview">
-              <img 
-                src="https://images.unsplash.com/photo-1495020689067-958852a7765e?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" 
-                alt="Featured Article" 
+              <img
+                src="https://images.unsplash.com/photo-1495020689067-958852a7765e?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
+                alt="Featured Article"
               />
               <div className="featured-actions">
                 <button className="featured-btn like-btn">
@@ -291,9 +318,9 @@ export const Inicio: React.FC = () => {
           <div className="sidebar-section">
             <h3>Newsletter Sign-Up</h3>
             <div className="newsletter-content">
-              <img 
-                src="https://images.unsplash.com/photo-1557804506-669a67965ba0?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" 
-                alt="Newsletter" 
+              <img
+                src="https://images.unsplash.com/photo-1557804506-669a67965ba0?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
+                alt="Newsletter"
               />
               <div className="newsletter-actions">
                 <button className="featured-btn like-btn">
@@ -388,7 +415,8 @@ export const Inicio: React.FC = () => {
               <h2>Noticias Relevantes</h2>
               {/* Grid de tarjetas de noticias */}
               <div className="news-grid">
-                {noticiasRelevantes.map((noticia) => (
+                {/* Combinar noticias hardcodeadas con las creadas dinámicamente */}
+                {[...noticiasRelevantes, ...noticiasCreadas].map((noticia) => (
                   <article key={noticia.id} className="news-card">
                     <img
                       src={noticia.imagen}
@@ -398,7 +426,7 @@ export const Inicio: React.FC = () => {
                     <div className="news-content">
                       <span className="news-category">{noticia.categoria}</span>
                       <h3 className="news-title">{noticia.titulo}</h3>
-                      <p className="news-summary">{noticia.resumen}</p>
+                      <p className="news-summary">{(noticia as any).resumen || (noticia as any).contenidoTexto}</p>
                       <div className="news-meta">
                         <span className="news-author">{noticia.autor}</span>
                         <span className="news-date">{noticia.fecha}</span>
@@ -412,7 +440,10 @@ export const Inicio: React.FC = () => {
                           <Heart size={16} />
                           <span>{noticia.likes + (likedArticles.has(noticia.id) ? 1 : 0)}</span>
                         </button>
-                        <button className="action-btn comment-btn">
+                        <button
+                          onClick={() => handleOpenComments(noticia)}
+                          className="action-btn comment-btn"
+                        >
                           <MessageCircle size={16} />
                           <span>{noticia.comentarios}</span>
                         </button>
@@ -481,6 +512,16 @@ export const Inicio: React.FC = () => {
           </div>
         </aside>
       </div>
+
+      {/* Modal de comentarios */}
+      {selectedNoticia && (
+        <CommentsModal
+          isOpen={showCommentsModal}
+          onClose={handleCloseComments}
+          noticiaId={selectedNoticia.id}
+          noticiaTitle={selectedNoticia.titulo}
+        />
+      )}
 
       {/* Pie de página con información de contacto y redes sociales */}
       <footer className="footer">

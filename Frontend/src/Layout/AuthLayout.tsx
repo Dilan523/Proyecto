@@ -2,7 +2,7 @@ import { Outlet, Link, useNavigate } from "react-router-dom";
 import "./Layout.css";
 import perfilDefault from "../assets/Img/perfil.jpg";
 import { useContext } from "react";
-import { UserContext } from "../context/UserContext";
+import { UserContext } from "../context/UserContextValue";
 
 export default function AuthLayout() {
   const { user, logout } = useContext(UserContext);

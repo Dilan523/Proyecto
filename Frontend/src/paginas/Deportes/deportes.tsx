@@ -3,7 +3,9 @@ import { Link } from 'react-router-dom';
 import { Plus, Heart, MessageCircle, Share2, Bookmark } from 'lucide-react';
 import { Button, Card, Carousel } from 'antd';
 import './deportes.css';
-import { UserContext } from '../../context/UserContext';
+import { UserContext } from '../../context/UserContextValue';
+import CommentsModal from '../../components/CommentsModal';
+
 
 interface Comment {
   id: number;
@@ -34,7 +36,8 @@ interface FeaturedNews {
 export default function Deportes() {
   const { user } = useContext(UserContext); // <-- Contexto de usuario
   const [selectedCategory, setSelectedCategory] = useState('Todas');
-  const [showComments, setShowComments] = useState<{ [id: number]: boolean }>({});
+  const [showCommentsModal, setShowCommentsModal] = useState(false);
+  const [selectedNoticia, setSelectedNoticia] = useState<NewsItem | null>(null);
 
   const [news, setNews] = useState<NewsItem[]>([
     {
@@ -118,7 +121,17 @@ export default function Deportes() {
     ));
   };
 
-  const categories = ['Todas', 'SALUD', 'ENTRENAMIENTO', 'NUTRICIÓN', 'RECUPERACIÓN', 'FÚTBOL', 'ATLETISMO', 'TECNOLOGÍA'];
+  const handleOpenComments = (noticia: NewsItem) => {
+    setSelectedNoticia(noticia);
+    setShowCommentsModal(true);
+  };
+
+  const handleCloseComments = () => {
+    setShowCommentsModal(false);
+    setSelectedNoticia(null);
+  };
+
+
   const filteredNews = news.filter(item => (selectedCategory === 'Todas' || item.category === selectedCategory));
 
   return (
@@ -167,7 +180,7 @@ export default function Deportes() {
                     <Button type="text" size="small" icon={<Heart size={18} />} onClick={() => toggleLike(item.id)} className={"action-btn " + (item.isLiked ? "like-active" : "")}>
                       {item.likes}
                     </Button>
-                    <Button type="text" size="small" icon={<MessageCircle size={18} />} onClick={() => setShowComments(prev => ({ ...prev, [item.id]: !prev[item.id] }))} className="action-btn">
+                    <Button type="text" size="small" icon={<MessageCircle size={18} />} onClick={() => handleOpenComments(item)} className="action-btn">
                       {item.comments}
                     </Button>
                     <Button type="text" size="small" icon={<Share2 size={18} />} className="action-btn" />
@@ -180,16 +193,15 @@ export default function Deportes() {
           </div>
         </section>
 
-        {filteredNews.map(item => showComments[item.id] && (
-          <div key={`comments-${item.id}`} className="comments-section">
-            <h4>Comentarios</h4>
-            {item.commentsList.map(comment => (
-              <div key={comment.id} className="comment">
-                <strong>{comment.author}:</strong> {comment.text}
-              </div>
-            ))}
-          </div>
-        ))}
+        {/* Modal de comentarios */}
+        {selectedNoticia && (
+          <CommentsModal
+            isOpen={showCommentsModal}
+            onClose={handleCloseComments}
+            noticiaId={selectedNoticia.id}
+            noticiaTitle={selectedNoticia.title}
+          />
+        )}
 
         {/* COME SALUDABLE */}
         <section className="come-saludable-section">
@@ -197,20 +209,20 @@ export default function Deportes() {
             <h1>COME SALUDABLE</h1>
           <p>
             La importancia de la alimentación en el entrenamiento<br />
-            Cuando hablamos de entrenar, muchos piensan solo en el ejercicio físico, pero la verdad es que una parte 
+            Cuando hablamos de entrenar, muchos piensan solo en el ejercicio físico, pero la verdad es que una parte
             fundamental del rendimiento y los resultados está en la alimentación. Comer bien no solo ayuda a tener energía para entrenar
             , sino que también permite una mejor recuperación, evita lesiones y mejora el desempeño en cada sesión.<br /><br />
-            Una alimentación adecuada aporta los nutrientes que el cuerpo necesita para funcionar correctamente. Los carbohidratos son la 
+            Una alimentación adecuada aporta los nutrientes que el cuerpo necesita para funcionar correctamente. Los carbohidratos son la
             principal fuente de energía, las proteínas ayudan a reparar y fortalecer los músculos, y las grasas saludables mantienen el buen
             ionamiento del cuerpo. Además, las vitaminas y minerales juegan un papel clave en mantenernos activos, prevenir fatiga y regular
             los procesos internos.<br /><br />
-            Cuando se entrena sin una buena alimentación, el cuerpo se desgasta, se vuelve 
-            más propenso a enfermarse y los resultados tardan mucho más en verse. Por eso, cuidar lo que se 
+            Cuando se entrena sin una buena alimentación, el cuerpo se desgasta, se vuelve
+            más propenso a enfermarse y los resultados tardan mucho más en verse. Por eso, cuidar lo que se
             come antes, durante y después del ejercicio es tan importante como el entrenamiento mismo.<br /><br />
-            Al final, cuerpo y mente trabajan juntos, y una alimentación equilibrada es el combustible que mantiene 
+            Al final, cuerpo y mente trabajan juntos, y una alimentación equilibrada es el combustible que mantiene
             esa máquina andando.<br />
             Comer bien no es solo por estética, sino por salud, bienestar y por respeto al esfuerzo que se hace en cada entrenamiento.<br />
-            La comida saludable aporta nutrientes esenciales que fortalecen el cuerpo, mejoran la energía y favorecen la recuperación 
+            La comida saludable aporta nutrientes esenciales que fortalecen el cuerpo, mejoran la energía y favorecen la recuperación
             muscular. Mantener una buena alimentación potencia el rendimiento y optimiza los resultados del entrenamiento diario.
           </p>
           </div>

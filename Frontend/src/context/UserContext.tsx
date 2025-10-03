@@ -1,28 +1,7 @@
-import React, { createContext, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import type { ReactNode } from "react";
-
-export type Role = "lector" | "editor" | "escritor";
-
-export interface User {
-  id: string;
-  nombre: string;
-  apellidos: string;
-  email: string;
-  foto?: string;
-  rol: Role;
-}
-
-interface UserContextType {
-  user: User | null;
-  setUser: React.Dispatch<React.SetStateAction<User | null>>;
-  logout: () => void;
-}
-
-export const UserContext = createContext<UserContextType>({
-  user: null,
-  setUser: () => {},
-  logout: () => {},
-});
+import { UserContext } from "./UserContextValue";
+import type { User, Role } from "./UserContextValue";
 
 export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [user, setUserState] = useState<User | null>(null);

@@ -4,7 +4,7 @@ import perfilDefault from "../../assets/Img/perfil.jpg";
 import s1 from "../../assets/Img/S1.png";
 import s2 from "../../assets/Img/S2.png";
 import s3 from "../../assets/Img/S3.png";
-import { UserContext } from "../../context/UserContext";
+import { UserContext } from "../../context/UserContextValue";
 
 const Perfil: React.FC = () => {
   const { user, setUser } = useContext(UserContext);
