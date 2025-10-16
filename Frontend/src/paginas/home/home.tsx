@@ -1,10 +1,12 @@
-import React, { useState } from "react";// Importaciones necesarias para el componente React
+import React, { useState, useEffect } from "react";// Importaciones necesarias para el componente React
 import { Heart, MessageCircle, Share2, Bookmark, Search } from "lucide-react";// Importación de iconos de Lucide para botones de acciones
 import { Carousel } from 'antd';// Importación del componente Carousel de Ant Design para el carrusel
+import { getNoticiasCreadas, toggleLikeNoticia, toggleSaveNoticia, shareNoticia, getNoticiasPorCategoriaPrincipal } from "../../services/noticias";
+import type { Noticia } from "../../services/noticias";
 import "./home.css";// Importación del archivo de estilos CSS
 // Importación de imágenes decorativas para el footer
-import s4 from "../../assets/Img/s4.png";
-import s3 from "../../assets/Img/S3.png";
+import CommentsModal from "../../components/CommentsModal";
+import Footer from "../../components/Footer";
 
 // Array de objetos que contiene las imágenes destacadas para mostrar en la barra lateral
 const imagenesDestacadas = [
@@ -73,7 +75,6 @@ const featuredNewsHome = [
   }
 ];
 
-// Array de objetos que contiene las noticias relevantes para mostrar en la sección principal
 // Array de objetos que contiene las noticias relevantes para mostrar en la sección principal
 const noticiasRelevantes = [
   {
@@ -182,16 +183,48 @@ const noticiasRelevantes = [
   },
 ];
 
-
 // Definición del componente funcional Inicio usando React.FC
 export const Inicio: React.FC = () => {
   // Estados para manejar artículos marcados como me gusta, guardados y término de búsqueda
   const [likedArticles, setLikedArticles] = useState<Set<number>>(new Set());
   const [savedArticles, setSavedArticles] = useState<Set<number>>(new Set());
   const [searchTerm, setSearchTerm] = useState("");
+  const [showCommentsModal, setShowCommentsModal] = useState(false);
+  const [selectedNoticia, setSelectedNoticia] = useState<any>(null);
+  const [noticiasCreadas, setNoticiasCreadas] = useState<Noticia[]>([]);
+  const [noticiasDeportes, setNoticiasDeportes] = useState<Noticia[]>([]);
+  const [noticiasArte, setNoticiasArte] = useState<Noticia[]>([]);
+  const [noticiasCultura, setNoticiasCultura] = useState<Noticia[]>([]);
+  const [noticiasBienestar, setNoticiasBienestar] = useState<Noticia[]>([]);
+  const [commentCounts, setCommentCounts] = useState<{ [key: number]: number }>({});
+
+  // Cargar noticias creadas al montar el componente
+  useEffect(() => {
+    const cargarNoticias = () => {
+      const noticias = getNoticiasCreadas();
+      setNoticiasCreadas(noticias);
+
+      // Filtrar por categorías principales
+      setNoticiasDeportes(getNoticiasPorCategoriaPrincipal('deportes'));
+      setNoticiasArte(getNoticiasPorCategoriaPrincipal('arte'));
+      setNoticiasCultura(getNoticiasPorCategoriaPrincipal('cultura'));
+      setNoticiasBienestar(getNoticiasPorCategoriaPrincipal('bienestar'));
+    };
+
+    cargarNoticias();
+
+    // Recargar noticias cuando cambie el localStorage (útil para desarrollo)
+    const handleStorageChange = () => {
+      cargarNoticias();
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+    return () => window.removeEventListener('storage', handleStorageChange);
+  }, []);
 
   // Función para manejar el like de un artículo
   const handleLike = (articleId: number) => {
+    toggleLikeNoticia(articleId);
     setLikedArticles(prev => {
       const newSet = new Set(prev);
       if (newSet.has(articleId)) {
@@ -205,6 +238,7 @@ export const Inicio: React.FC = () => {
 
   // Función para manejar el guardado de un artículo
   const handleSave = (articleId: number) => {
+    toggleSaveNoticia(articleId);
     setSavedArticles(prev => {
       const newSet = new Set(prev);
       if (newSet.has(articleId)) {
@@ -218,16 +252,27 @@ export const Inicio: React.FC = () => {
 
   // Función para manejar el compartir de un artículo
   const handleShare = (article: any) => {
-    if (navigator.share) {
-      navigator.share({
-        title: article.titulo,
-        text: article.resumen,
-        url: window.location.href
-      });
-    } else {
-      navigator.clipboard.writeText(window.location.href);
-      alert('Enlace copiado al portapapeles');
-    }
+    shareNoticia(article);
+  };
+
+  // Función para abrir el modal de comentarios
+  const handleOpenComments = (noticia: any) => {
+    setSelectedNoticia(noticia);
+    setShowCommentsModal(true);
+  };
+
+  // Función para cerrar el modal de comentarios
+  const handleCloseComments = () => {
+    setShowCommentsModal(false);
+    setSelectedNoticia(null);
+  };
+
+  // Función para manejar cambios en el conteo de comentarios
+  const handleCommentCountChange = (noticiaId: number, count: number) => {
+    setCommentCounts(prev => ({
+      ...prev,
+      [noticiaId]: count
+    }));
   };
 
   // Renderizado del componente con estructura JSX
@@ -257,9 +302,9 @@ export const Inicio: React.FC = () => {
           <div className="sidebar-section">
             <h3>Featured Article</h3>
             <div className="featured-preview">
-              <img 
-                src="https://images.unsplash.com/photo-1495020689067-958852a7765e?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" 
-                alt="Featured Article" 
+              <img
+                src="https://images.unsplash.com/photo-1495020689067-958852a7765e?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
+                alt="Featured Article"
               />
               <div className="featured-actions">
                 <button className="featured-btn like-btn">
@@ -291,9 +336,9 @@ export const Inicio: React.FC = () => {
           <div className="sidebar-section">
             <h3>Newsletter Sign-Up</h3>
             <div className="newsletter-content">
-              <img 
-                src="https://images.unsplash.com/photo-1557804506-669a67965ba0?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" 
-                alt="Newsletter" 
+              <img
+                src="https://images.unsplash.com/photo-1557804506-669a67965ba0?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
+                alt="Newsletter"
               />
               <div className="newsletter-actions">
                 <button className="featured-btn like-btn">
@@ -355,7 +400,59 @@ export const Inicio: React.FC = () => {
             <section className="content-section">
               <h2>DEPORTES</h2>
               <div className="section-content">
-                <p>Data comment contains actual impacts for society, beneficial parameters and exemplary that requires...</p>
+                {noticiasDeportes.length > 0 ? (
+                  <div className="news-grid">
+                    {noticiasDeportes.slice(0, 3).map((noticia) => (
+                      <article key={noticia.id} className="news-card">
+                        <img
+                          src={noticia.imagen}
+                          alt={noticia.titulo}
+                          className="news-image"
+                        />
+                        <div className="news-content">
+                          <span className="news-category">{noticia.categoria}</span>
+                          <h3 className="news-title">{noticia.titulo}</h3>
+                          <p className="news-summary">{noticia.contenidoTexto}</p>
+                          <div className="news-meta">
+                            <span className="news-author">{noticia.autor}</span>
+                            <span className="news-date">{noticia.fecha}</span>
+                          </div>
+                          <div className="news-actions">
+                            <button
+                              onClick={() => handleLike(noticia.id)}
+                              className={`action-btn like-btn ${likedArticles.has(noticia.id) ? 'active' : ''}`}
+                            >
+                              <Heart size={16} />
+                              <span>{noticia.likes + (likedArticles.has(noticia.id) ? 1 : 0)}</span>
+                            </button>
+                            <button
+                              onClick={() => handleOpenComments(noticia)}
+                              className="action-btn comment-btn"
+                            >
+                              <MessageCircle size={16} />
+                              <span>{commentCounts[noticia.id] ?? noticia.comentarios}</span>
+                            </button>
+                            <button
+                              onClick={() => handleShare(noticia)}
+                              className="action-btn share-btn"
+                            >
+                              <Share2 size={16} />
+                              <span>{noticia.compartidos}</span>
+                            </button>
+                            <button
+                              onClick={() => handleSave(noticia.id)}
+                              className={`action-btn save-btn ${savedArticles.has(noticia.id) ? 'active' : ''}`}
+                            >
+                              <Bookmark size={16} />
+                            </button>
+                          </div>
+                        </div>
+                      </article>
+                    ))}
+                  </div>
+                ) : (
+                  <p>Data comment contains actual impacts for society, beneficial parameters and exemplary that requires...</p>
+                )}
               </div>
             </section>
 
@@ -363,7 +460,59 @@ export const Inicio: React.FC = () => {
             <section className="content-section">
               <h2>ARTE</h2>
               <div className="section-content">
-                <p>Data comment contains actual impacts for society, beneficial parameters and exemplary that requires...</p>
+                {noticiasArte.length > 0 ? (
+                  <div className="news-grid">
+                    {noticiasArte.slice(0, 3).map((noticia) => (
+                      <article key={noticia.id} className="news-card">
+                        <img
+                          src={noticia.imagen}
+                          alt={noticia.titulo}
+                          className="news-image"
+                        />
+                        <div className="news-content">
+                          <span className="news-category">{noticia.categoria}</span>
+                          <h3 className="news-title">{noticia.titulo}</h3>
+                          <p className="news-summary">{noticia.contenidoTexto}</p>
+                          <div className="news-meta">
+                            <span className="news-author">{noticia.autor}</span>
+                            <span className="news-date">{noticia.fecha}</span>
+                          </div>
+                          <div className="news-actions">
+                            <button
+                              onClick={() => handleLike(noticia.id)}
+                              className={`action-btn like-btn ${likedArticles.has(noticia.id) ? 'active' : ''}`}
+                            >
+                              <Heart size={16} />
+                              <span>{noticia.likes + (likedArticles.has(noticia.id) ? 1 : 0)}</span>
+                            </button>
+                            <button
+                              onClick={() => handleOpenComments(noticia)}
+                              className="action-btn comment-btn"
+                            >
+                              <MessageCircle size={16} />
+                              <span>{commentCounts[noticia.id] ?? noticia.comentarios}</span>
+                            </button>
+                            <button
+                              onClick={() => handleShare(noticia)}
+                              className="action-btn share-btn"
+                            >
+                              <Share2 size={16} />
+                              <span>{noticia.compartidos}</span>
+                            </button>
+                            <button
+                              onClick={() => handleSave(noticia.id)}
+                              className={`action-btn save-btn ${savedArticles.has(noticia.id) ? 'active' : ''}`}
+                            >
+                              <Bookmark size={16} />
+                            </button>
+                          </div>
+                        </div>
+                      </article>
+                    ))}
+                  </div>
+                ) : (
+                  <p>Data comment contains actual impacts for society, beneficial parameters and exemplary that requires...</p>
+                )}
               </div>
             </section>
 
@@ -371,7 +520,59 @@ export const Inicio: React.FC = () => {
             <section className="content-section">
               <h2>CULTURA</h2>
               <div className="section-content">
-                <p>Data comment contains actual impacts for society, beneficial parameters and exemplary that requires...</p>
+                {noticiasCultura.length > 0 ? (
+                  <div className="news-grid">
+                    {noticiasCultura.slice(0, 3).map((noticia) => (
+                      <article key={noticia.id} className="news-card">
+                        <img
+                          src={noticia.imagen}
+                          alt={noticia.titulo}
+                          className="news-image"
+                        />
+                        <div className="news-content">
+                          <span className="news-category">{noticia.categoria}</span>
+                          <h3 className="news-title">{noticia.titulo}</h3>
+                          <p className="news-summary">{noticia.contenidoTexto}</p>
+                          <div className="news-meta">
+                            <span className="news-author">{noticia.autor}</span>
+                            <span className="news-date">{noticia.fecha}</span>
+                          </div>
+                          <div className="news-actions">
+                            <button
+                              onClick={() => handleLike(noticia.id)}
+                              className={`action-btn like-btn ${likedArticles.has(noticia.id) ? 'active' : ''}`}
+                            >
+                              <Heart size={16} />
+                              <span>{noticia.likes + (likedArticles.has(noticia.id) ? 1 : 0)}</span>
+                            </button>
+                            <button
+                              onClick={() => handleOpenComments(noticia)}
+                              className="action-btn comment-btn"
+                            >
+                              <MessageCircle size={16} />
+                              <span>{commentCounts[noticia.id] ?? noticia.comentarios}</span>
+                            </button>
+                            <button
+                              onClick={() => handleShare(noticia)}
+                              className="action-btn share-btn"
+                            >
+                              <Share2 size={16} />
+                              <span>{noticia.compartidos}</span>
+                            </button>
+                            <button
+                              onClick={() => handleSave(noticia.id)}
+                              className={`action-btn save-btn ${savedArticles.has(noticia.id) ? 'active' : ''}`}
+                            >
+                              <Bookmark size={16} />
+                            </button>
+                          </div>
+                        </div>
+                      </article>
+                    ))}
+                  </div>
+                ) : (
+                  <p>Data comment contains actual impacts for society, beneficial parameters and exemplary that requires...</p>
+                )}
               </div>
             </section>
 
@@ -379,7 +580,59 @@ export const Inicio: React.FC = () => {
             <section className="content-section">
               <h2>BIENESTAR</h2>
               <div className="section-content">
-                <p>Data comment contains actual impacts for society, beneficial parameters and exemplary that requires...</p>
+                {noticiasBienestar.length > 0 ? (
+                  <div className="news-grid">
+                    {noticiasBienestar.slice(0, 3).map((noticia) => (
+                      <article key={noticia.id} className="news-card">
+                        <img
+                          src={noticia.imagen}
+                          alt={noticia.titulo}
+                          className="news-image"
+                        />
+                        <div className="news-content">
+                          <span className="news-category">{noticia.categoria}</span>
+                          <h3 className="news-title">{noticia.titulo}</h3>
+                          <p className="news-summary">{noticia.contenidoTexto}</p>
+                          <div className="news-meta">
+                            <span className="news-author">{noticia.autor}</span>
+                            <span className="news-date">{noticia.fecha}</span>
+                          </div>
+                          <div className="news-actions">
+                            <button
+                              onClick={() => handleLike(noticia.id)}
+                              className={`action-btn like-btn ${likedArticles.has(noticia.id) ? 'active' : ''}`}
+                            >
+                              <Heart size={16} />
+                              <span>{noticia.likes + (likedArticles.has(noticia.id) ? 1 : 0)}</span>
+                            </button>
+                            <button
+                              onClick={() => handleOpenComments(noticia)}
+                              className="action-btn comment-btn"
+                            >
+                              <MessageCircle size={16} />
+                              <span>{commentCounts[noticia.id] ?? noticia.comentarios}</span>
+                            </button>
+                            <button
+                              onClick={() => handleShare(noticia)}
+                              className="action-btn share-btn"
+                            >
+                              <Share2 size={16} />
+                              <span>{noticia.compartidos}</span>
+                            </button>
+                            <button
+                              onClick={() => handleSave(noticia.id)}
+                              className={`action-btn save-btn ${savedArticles.has(noticia.id) ? 'active' : ''}`}
+                            >
+                              <Bookmark size={16} />
+                            </button>
+                          </div>
+                        </div>
+                      </article>
+                    ))}
+                  </div>
+                ) : (
+                  <p>Data comment contains actual impacts for society, beneficial parameters and exemplary that requires...</p>
+                )}
               </div>
             </section>
 
@@ -388,6 +641,7 @@ export const Inicio: React.FC = () => {
               <h2>Noticias Relevantes</h2>
               {/* Grid de tarjetas de noticias */}
               <div className="news-grid">
+                {/* Solo mostrar noticias hardcodeadas */}
                 {noticiasRelevantes.map((noticia) => (
                   <article key={noticia.id} className="news-card">
                     <img
@@ -398,7 +652,7 @@ export const Inicio: React.FC = () => {
                     <div className="news-content">
                       <span className="news-category">{noticia.categoria}</span>
                       <h3 className="news-title">{noticia.titulo}</h3>
-                      <p className="news-summary">{noticia.resumen}</p>
+                      <p className="news-summary">{(noticia as any).resumen || (noticia as any).contenidoTexto}</p>
                       <div className="news-meta">
                         <span className="news-author">{noticia.autor}</span>
                         <span className="news-date">{noticia.fecha}</span>
@@ -412,9 +666,12 @@ export const Inicio: React.FC = () => {
                           <Heart size={16} />
                           <span>{noticia.likes + (likedArticles.has(noticia.id) ? 1 : 0)}</span>
                         </button>
-                        <button className="action-btn comment-btn">
+                        <button
+                          onClick={() => handleOpenComments(noticia)}
+                          className="action-btn comment-btn"
+                        >
                           <MessageCircle size={16} />
-                          <span>{noticia.comentarios}</span>
+                          <span>{commentCounts[noticia.id] ?? noticia.comentarios}</span>
                         </button>
                         <button
                           onClick={() => handleShare(noticia)}
@@ -482,39 +739,18 @@ export const Inicio: React.FC = () => {
         </aside>
       </div>
 
-      {/* Pie de página con información de contacto y redes sociales */}
-      <footer className="footer">
-        <div className="footer-inner">
-          {/* Decoración izquierda del footer */}
-          <div className="footer-lateral-izquierda">
-            <img src={s4} alt="decor-left" />
-          </div>
-          {/* Contenido principal del footer */}
-          <div className="footer-content">
-            <h2 className="footer-title">SN-52</h2>
-            <div className="footer-social-and-contact">
-              {/* Enlaces a redes sociales */}
-              <div className="footer-social">
-                {Object.entries(iconosRedes).map(([key, url]) => (
-                  <a key={key} href="#" target="_blank" rel="noopener noreferrer">
-                    <img src={url} alt={key} />
-                  </a>
-                ))}
-              </div>
-              {/* Información de contacto */}
-              <div className="footer-contact">
-                <a href="mailto:SN_52@SENA.com">SN_52@SENA.com</a>
-                <span className="footer-sep">·</span>
-                <a href="tel:1234567890">123-456-7890</a>
-              </div>
-            </div>
-          </div>
-          {/* Decoración derecha del footer */}
-          <div className="footer-lateral-derecha">
-            <img src={s3} alt="decor-right" />
-          </div>
-        </div>
-      </footer>
+      {/* Modal de comentarios */}
+      {selectedNoticia && (
+        <CommentsModal
+          isOpen={showCommentsModal}
+          onClose={handleCloseComments}
+          noticiaId={selectedNoticia.id}
+          noticiaTitle={selectedNoticia.titulo}
+          onCommentCountChange={handleCommentCountChange}
+        />
+      )}
+
+      <Footer />
     </div>
   );
 };

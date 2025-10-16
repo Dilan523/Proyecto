@@ -3,8 +3,10 @@ import s1 from "../../assets/Img/S1.png";
 import s2 from "../../assets/Img/S2.png";
 import s5 from "../../assets/Img/s5.png";
 import "./rec_contra.css";
+import { useAlert } from "../../hooks/useAlert";
 
 export default function RecuperarContraseña() {
+  const { showAlert } = useAlert();
   const [email, setEmail] = useState<string>("");
   const [mensaje, setMensaje] = useState<string>("");
   const [error, setError] = useState<string>("");
@@ -25,12 +27,12 @@ export default function RecuperarContraseña() {
 
       if (response.ok) {
         // Mostramos el token directamente
-        setMensaje(`Token generado: ${data.token}`);
+        showAlert(`Token generado: ${data.token}`, "success");
       } else {
-        setError(data.detail || "Ocurrió un error, intenta nuevamente");
+        showAlert(data.detail || "Ocurrió un error, intenta nuevamente", "error");
       }
     } catch {
-      setError("No se pudo conectar con el servidor");
+      showAlert("No se pudo conectar con el servidor", "error");
     }
   };
 

@@ -3,6 +3,7 @@ import "./Layout.css";
 import perfilDefault from "../assets/Img/perfil.jpg";
 import { useContext } from "react";
 import { UserContext } from "../context/UserContext";
+import Alert from "../components/Alert";
 
 export default function AuthLayout() {
   const { user, logout } = useContext(UserContext);
@@ -51,6 +52,7 @@ export default function AuthLayout() {
       <main>
         <Outlet />
       </main>
+      <Alert />
     </div>
   );
 }

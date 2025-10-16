@@ -3,6 +3,7 @@ import "./Layout.css";
 import perfilDefault from "../assets/Img/perfil.jpg";
 import { useContext } from "react";
 import { UserContext } from "../context/UserContext";
+import Alert from "../components/Alert";
 
 export default function PublicLayout() {
   const { user, logout } = useContext(UserContext);
@@ -57,6 +58,7 @@ export default function PublicLayout() {
       <main>
         <Outlet />
       </main>
+      <Alert />
     </div>
   );
 }

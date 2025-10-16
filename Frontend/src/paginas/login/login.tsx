@@ -6,10 +6,12 @@ import s3 from "../../assets/Img/S3.png";
 import s4 from "../../assets/Img/S4.png";
 import s5 from "../../assets/Img/S5.png";
 import { UserContext, type Role, type User } from "../../context/UserContext";
+import { useAlert } from "../../hooks/useAlert";
 
 export default function Login() {
   const navigate = useNavigate();
   const { setUser } = useContext(UserContext);
+  const { showAlert } = useAlert();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -24,7 +26,7 @@ export default function Login() {
       const res = await fetch("http://localhost:8000/auth/login", { method: "POST", body: fd });
       if (!res.ok) {
         const err = await res.json();
-        alert(err.detail || "Error en login");
+        showAlert(err.detail || "Error en login", "error");
         return;
       }
 
@@ -49,9 +51,10 @@ export default function Login() {
       localStorage.setItem("user", JSON.stringify(usuarioConRol));
       localStorage.setItem("token", data.access_token);
 
+      showAlert("Inicio de sesión exitoso", "success");
       navigate("/"); // Redirige al inicio
     } catch {
-      alert("Error de conexión con el servidor");
+      showAlert("Error de conexión con el servidor", "error");
     }
   };
 

@@ -5,9 +5,11 @@ import s1 from "../../assets/Img/S1.png";
 import s2 from "../../assets/Img/S2.png";
 import s3 from "../../assets/Img/S3.png";
 import { UserContext } from "../../context/UserContext";
+import { useAlert } from "../../hooks/useAlert";
 
 const Perfil: React.FC = () => {
   const { user, setUser } = useContext(UserContext);
+  const { showAlert } = useAlert();
   const [foto, setFoto] = useState<string>(perfilDefault);
   const [fotoFile, setFotoFile] = useState<File | null>(null);
   const [nombre, setNombre] = useState<string>("");
@@ -67,10 +69,10 @@ const Perfil: React.FC = () => {
       setUser(updatedUser);
       localStorage.setItem("user", JSON.stringify(updatedUser));
 
-      alert("Perfil actualizado con éxito ✅");
+      showAlert("Perfil actualizado con éxito ✅", "success");
     } catch (error) {
       console.error(error);
-      alert("Hubo un error al actualizar perfil ❌");
+      showAlert("Hubo un error al actualizar perfil ❌", "error");
     }
   };
 

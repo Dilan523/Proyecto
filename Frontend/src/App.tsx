@@ -7,6 +7,9 @@ import RecuperarContraseña from "./paginas/rec_contra/rec_contra";
 import Perfil from "./paginas/Perfil/perfil";
 import CrearArt from "./paginas/crearArt/CrearArt";
 import Deportes from "./paginas/Deportes/deportes";
+import Cultura from "./paginas/Cultura/Cultura"
+import Artes from "./paginas/Artes/Artes"
+import Bienestar from "./paginas/Bienestar/Bienestar"
 import PublicLayout from "./Layout/PublicLayout";
 import AuthLayout from "./Layout/AuthLayout";
 
@@ -16,9 +19,9 @@ export default function App() {
       <Route element={<PublicLayout />}>
         <Route index element={<Home />} />
         <Route path="deportes" element={<Deportes />} />
-        <Route path="arte" element={<h1>Arte</h1>} />
-        <Route path="cultura" element={<h1>Cultura</h1>} />
-        <Route path="bienestar" element={<h1>Bienestar</h1>} />
+        <Route path="arte" element={<Artes />} />
+        <Route path="cultura" element={<Cultura />} />
+        <Route path="bienestar" element={<Bienestar />} />
       </Route>
 
       <Route element={<AuthLayout />}>

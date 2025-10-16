@@ -6,7 +6,7 @@
   min-height: 100vh;
   background-color: #f0f4f8;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   padding: 0;
   overflow-x: hidden;
 }

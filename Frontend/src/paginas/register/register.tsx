@@ -6,6 +6,7 @@ import s1 from "../../assets/Img/S1.png";
 import s2 from "../../assets/Img/S2.png";
 import s4 from "../../assets/Img/S4.png";
 import s5 from "../../assets/Img/S5.png";
+import { useAlert } from "../../hooks/useAlert";
 
 interface FormFieldProps {
   label: string;
@@ -72,6 +73,7 @@ const FormField: React.FC<FormFieldProps> = ({
 
 const Registro: React.FC = () => {
   const navigate = useNavigate();
+  const { showAlert } = useAlert();
   const [formData, setFormData] = useState({
     nombre: "",
     apellido: "",
@@ -102,8 +104,8 @@ const Registro: React.FC = () => {
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
-      if (file.size > 5 * 1024 * 1024) { alert("Máx 5MB"); return; }
-      if (!file.type.startsWith("image/")) { alert("Archivo inválido"); return; }
+      if (file.size > 5 * 1024 * 1024) { showAlert("Máximo 5MB permitido", "error"); return; }
+      if (!file.type.startsWith("image/")) { showAlert("Por favor selecciona un archivo de imagen válido", "error"); return; }
       setImageFile(file);
       const reader = new FileReader();
       reader.onload = (e) => setProfileImage(e.target?.result as string);
@@ -142,16 +144,16 @@ const Registro: React.FC = () => {
       const res = await fetch("http://localhost:8000/auth/register", { method: "POST", body: fd });
       if (!res.ok) {
         const err = await res.json();
-        alert(err.detail || "Error al registrar usuario");
+        showAlert(err.detail || "Error al registrar usuario", "error");
         setIsLoading(false);
         return;
       }
 
-      alert("Usuario registrado con éxito. Ahora puedes iniciar sesión.");
+      showAlert("Usuario registrado con éxito. Ahora puedes iniciar sesión.", "success");
       navigate("/login"); // redirige a login
     } catch (error) {
       console.error(error);
-      alert("Error de conexión con el servidor");
+      showAlert("Error de conexión con el servidor", "error");
     } finally {
       setIsLoading(false);
     }
