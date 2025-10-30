@@ -68,10 +68,34 @@ export const toggleLikeNoticia = (id: number): void => {
   }
 };
 
-// Función para actualizar guardados (simulado)
+// Función para obtener artículos guardados
+export const getSavedArticles = (): Noticia[] => {
+  try {
+    const saved = localStorage.getItem('saved_articles');
+    const savedIds = saved ? JSON.parse(saved) : [];
+    const allNoticias = getNoticiasCreadas();
+    return allNoticias.filter(noticia => savedIds.includes(noticia.id));
+  } catch (error) {
+    console.error('Error al obtener artículos guardados:', error);
+    return [];
+  }
+};
+
+// Función para guardar/desguardar artículo
 export const toggleSaveNoticia = (id: number): void => {
-  // Por ahora solo log, luego backend
-  console.log('Guardar noticia:', id);
+  try {
+    const saved = localStorage.getItem('saved_articles');
+    let savedIds = saved ? JSON.parse(saved) : [];
+    const index = savedIds.indexOf(id);
+    if (index > -1) {
+      savedIds.splice(index, 1); // Remover si ya está guardado
+    } else {
+      savedIds.push(id); // Agregar si no está guardado
+    }
+    localStorage.setItem('saved_articles', JSON.stringify(savedIds));
+  } catch (error) {
+    console.error('Error al guardar artículo:', error);
+  }
 };
 
 // Función para compartir noticia

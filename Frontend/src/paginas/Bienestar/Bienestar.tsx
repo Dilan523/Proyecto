@@ -302,9 +302,9 @@ export default function Bienestar() {
               </div>
             )}
 
-            <div className="bienestar-content-section">
+              <div className="bienestar-content-section">
               <h2>BIENESTAR</h2>
-              <div className="bienestar-news-grid">
+              <div className="news-grid">
                 {/* Combinar noticias hardcodeadas con las creadas dinámicamente */}
                 {[...filteredNews, ...noticiasCreadas.map(noticia => ({
                   id: noticia.id,
@@ -318,27 +318,27 @@ export default function Bienestar() {
                   isSaved: savedArticles.has(noticia.id),
                   commentsList: []
                 }))].map(item => (
-                  <Card key={item.id} className="bienestar-news-card" cover={<img src={item.image} alt={item.title} className="bienestar-news-image" />}>
-                    <div className="bienestar-news-content">
+                  <Card key={item.id} className="news-card" cover={<img src={item.image} alt={item.title} className="news-image" />}>
+                    <div className="news-content">
                       <div>
-                        <span className="bienestar-news-category">{item.category}</span>
-                        <h3 className="bienestar-news-title">{item.title}</h3>
-                        <p className="bienestar-news-excerpt">{item.excerpt}</p>
-                        <div className="bienestar-news-meta">
-                          <span className="bienestar-news-author">{item.id > 1000 ? 'Usuario' : 'Redacción SN-52'}</span>
-                          <span className="bienestar-news-date">{new Date().toLocaleDateString()}</span>
+                        <span className="news-category">{item.category}</span>
+                        <h3 className="news-title">{item.title}</h3>
+                        <p className="news-summary">{item.excerpt}</p>
+                        <div className="news-meta">
+                          <span className="news-author">{item.id > 1000 ? 'Usuario' : 'Redacción SN-52'}</span>
+                          <span className="news-date">{new Date().toLocaleDateString()}</span>
                         </div>
                       </div>
-                      <div className="bienestar-news-actions">
-                        <Button type="text" size="small" icon={<Heart size={18} />} onClick={() => item.id > 1000 ? handleLikeCreada(item.id) : toggleLike(item.id)} className={"bienestar-action-btn " + (item.isLiked ? "like-active" : "")}>
+                      <div className="news-actions">
+                        <Button type="text" size="small" icon={<Heart size={18} />} onClick={() => item.id > 1000 ? handleLikeCreada(item.id) : toggleLike(item.id)} className={"action-btn " + (item.isLiked ? "like-active" : "")}>
                           {item.likes + (item.isLiked ? 1 : 0)}
                         </Button>
-                        <Button type="text" size="small" icon={<MessageCircle size={18} />} onClick={() => item.id > 1000 ? handleOpenCommentsCreada(noticiasCreadas.find(n => n.id === item.id)!) : handleOpenComments(item)} className="bienestar-action-btn">
+                        <Button type="text" size="small" icon={<MessageCircle size={18} />} onClick={() => item.id > 1000 ? handleOpenCommentsCreada(noticiasCreadas.find(n => n.id === item.id)!) : handleOpenComments(item)} className="action-btn">
                           {commentCounts[item.id] ?? item.comments}
                         </Button>
-                        <Button type="text" size="small" icon={<Share2 size={18} />} onClick={() => item.id > 1000 ? handleShareCreada(noticiasCreadas.find(n => n.id === item.id)!) : null} className="bienestar-action-btn" />
+                        <Button type="text" size="small" icon={<Share2 size={18} />} onClick={() => item.id > 1000 ? handleShareCreada(noticiasCreadas.find(n => n.id === item.id)!) : null} className="action-btn" />
                         <div className="flex-grow" />
-                        <Button type="text" size="small" icon={<Bookmark size={18} />} onClick={() => item.id > 1000 ? handleSaveCreada(item.id) : toggleSave(item.id)} className={"bienestar-action-btn " + (item.isSaved ? "save-active" : "")} />
+                        <Button type="text" size="small" icon={<Bookmark size={18} />} onClick={() => item.id > 1000 ? handleSaveCreada(item.id) : toggleSave(item.id)} className={"action-btn " + (item.isSaved ? "save-active" : "")} />
                       </div>
                     </div>
                   </Card>
@@ -381,7 +381,7 @@ export default function Bienestar() {
                     { id: 3, src: "https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?w=400&h=300&fit=crop" },
                     { id: 4, src: "https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=400&h=300&fit=crop" }
                   ].map(item => (
-                    <Card key={item.id} className="come-saludable-image-card" cover={<img src={item.src} alt={`Imagen bienestar ${item.id}`} className="news-image" />}>
+                    <Card key={item.id} className="news-card" cover={<img src={item.src} alt={`Imagen bienestar ${item.id}`} className="news-image" />}>
                       <div className="news-content">
                         <div className="image-actions">
                           <Button type="text" size="small" icon={<Heart size={18} />} onClick={() => toggleLikeImage(item.id)} className={"action-btn " + (likedImages.has(item.id) ? "like-active" : "")}></Button>

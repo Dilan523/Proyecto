@@ -150,6 +150,10 @@ const Registro: React.FC = () => {
       }
 
       showAlert("Usuario registrado con éxito. Ahora puedes iniciar sesión.", "success");
+
+      // Forzar mostrar el banner de cookies después del registro
+      localStorage.removeItem("cookie_consent_accepted");
+
       navigate("/login"); // redirige a login
     } catch (error) {
       console.error(error);

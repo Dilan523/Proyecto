@@ -217,15 +217,15 @@ const CrearArt: React.FC = () => {
   const fechaActual = new Date().toISOString().split('T')[0];
 
   return (
-    <div className="crear-articulo-container">
-      <div className="header-section">
-        <h2 className="page-title">
+    <div className="crearart-crear-articulo-container">
+      <div className="crearart-header-section">
+        <h2 className="crearart-page-title">
           {previewMode ? "Vista Previa del Artículo" : "Crear Nuevo Artículo"}
         </h2>
-        <div className="header-actions">
-          <button 
-            type="button" 
-            className="btn-preview"
+        <div className="crearart-header-actions">
+          <button
+            type="button"
+            className="crearart-btn-preview"
             onClick={togglePreview}
             disabled={isLoading}
           >
@@ -237,25 +237,25 @@ const CrearArt: React.FC = () => {
 
       {previewMode ? (
         // Vista previa del artículo
-        <div className="preview-container">
-          <div className="preview-header">
+        <div className="crearart-preview-container">
+          <div className="crearart-preview-header">
             {imagenPreview && (
-              <img src={imagenPreview} alt="Imagen del artículo" className="preview-image" />
+              <img src={imagenPreview} alt="Imagen del artículo" className="crearart-preview-image" />
             )}
-            <div className="preview-meta">
-              <span className="preview-category">{categoria || "Sin categoría"}</span>
-              <h1 className="preview-title">{titulo || "Sin título"}</h1>
-              <p className="preview-date">{fecha ? new Date(fecha).toLocaleDateString('es-ES') : "Sin fecha"}</p>
+            <div className="crearart-preview-meta">
+              <span className="crearart-preview-category">{categoria || "Sin categoría"}</span>
+              <h1 className="crearart-preview-title">{titulo || "Sin título"}</h1>
+              <p className="crearart-preview-date">{fecha ? new Date(fecha).toLocaleDateString('es-ES') : "Sin fecha"}</p>
               {etiquetas.length > 0 && (
-                <div className="preview-tags">
+                <div className="crearart-preview-tags">
                   {etiquetas.map((etiqueta, index) => (
-                    <span key={index} className="preview-tag">#{etiqueta}</span>
+                    <span key={index} className="crearart-preview-tag">#{etiqueta}</span>
                   ))}
                 </div>
               )}
             </div>
           </div>
-          <div className="preview-content">
+          <div className="crearart-preview-content">
             {editor && (
               <div dangerouslySetInnerHTML={{ __html: editor.getHTML() }} />
             )}
@@ -263,12 +263,12 @@ const CrearArt: React.FC = () => {
         </div>
       ) : (
         // Formulario de edición
-        <form onSubmit={handleSubmit} className="article-form">
-          <div className="form-grid">
+        <form onSubmit={handleSubmit} className="crearart-article-form">
+          <div className="crearart-form-grid">
             {/* Columna izquierda */}
-            <div className="form-left">
-              <div className="form-group">
-                <label className="form-label">
+            <div className="crearart-form-left">
+              <div className="crearart-form-group">
+                <label className="crearart-form-label">
                   Título del Artículo *
                 </label>
                 <input
@@ -276,17 +276,17 @@ const CrearArt: React.FC = () => {
                   value={titulo}
                   onChange={(e) => setTitulo(e.target.value)}
                   placeholder="Escribe un título atractivo..."
-                  className="form-input"
+                  className="crearart-form-input"
                   maxLength={100}
                   required
                 />
-                <span className="char-count">{titulo.length}/100</span>
+                <span className="crearart-char-count">{titulo.length}/100</span>
               </div>
 
-              <div className="image-upload-section">
-                <label className="form-label">Imagen Principal</label>
-                
-                <div className="image-upload-area" onClick={handleImageClick}>
+              <div className="crearart-image-upload-section">
+                <label className="crearart-form-label">Imagen Principal</label>
+
+                <div className="crearart-image-upload-area" onClick={handleImageClick}>
                   <input
                     type="file"
                     ref={fileInputRef}
@@ -294,13 +294,13 @@ const CrearArt: React.FC = () => {
                     style={{ display: "none" }}
                     onChange={handleImageChange}
                   />
-                  
+
                   {imagenPreview ? (
-                    <div className="image-preview-container">
-                      <img src={imagenPreview} alt="Vista previa" className="image-preview" />
-                      <button 
-                        type="button" 
-                        className="remove-image-btn"
+                    <div className="crearart-image-preview-container">
+                      <img src={imagenPreview} alt="Vista previa" className="crearart-image-preview" />
+                      <button
+                        type="button"
+                        className="crearart-remove-image-btn"
                         onClick={(e) => {
                           e.stopPropagation();
                           removeImage();
@@ -310,7 +310,7 @@ const CrearArt: React.FC = () => {
                       </button>
                     </div>
                   ) : (
-                    <div className="upload-placeholder">
+                    <div className="crearart-upload-placeholder">
                       <Upload size={32} />
                       <span>Haz clic para subir una imagen</span>
                       <small>PNG, JPG hasta 5MB</small>
@@ -319,13 +319,13 @@ const CrearArt: React.FC = () => {
                 </div>
               </div>
 
-              <div className="form-row">
-                <div className="form-group">
-                  <label className="form-label">Categoría *</label>
+              <div className="crearart-form-row">
+                <div className="crearart-form-group">
+                  <label className="crearart-form-label">Categoría *</label>
                   <select
                     value={categoria}
                     onChange={(e) => setCategoria(e.target.value)}
-                    className="form-select"
+                    className="crearart-form-select"
                     required
                   >
                     <option value="">Seleccionar categoría</option>
@@ -333,53 +333,53 @@ const CrearArt: React.FC = () => {
                     <option value="bienestar">Bienestar</option>
                     <option value="cultura">Cultura</option>
                     <option value="arte">Arte</option>
-                  </select> 
+                  </select>
                 </div>
 
-                <div className="form-group">
-                  <label className="form-label">Fecha de Publicación *</label>
+                <div className="crearart-form-group">
+                  <label className="crearart-form-label">Fecha de Publicación *</label>
                   <input
                     type="date"
                     value={fecha}
                     onChange={(e) => setFecha(e.target.value)}
                     min={fechaActual}
-                    className="form-input"
+                    className="crearart-form-input"
                     required
                   />
                 </div>
               </div>
 
-              <div className="form-group">
-                <label className="form-label">Etiquetas</label>
-                <div className="tags-input-container">
+              <div className="crearart-form-group">
+                <label className="crearart-form-label">Etiquetas</label>
+                <div className="crearart-tags-input-container">
                   <input
                     type="text"
                     value={nuevaEtiqueta}
                     onChange={(e) => setNuevaEtiqueta(e.target.value)}
                     onKeyPress={handleKeyPress}
                     placeholder="Escribe una etiqueta y presiona Enter"
-                    className="form-input"
+                    className="crearart-form-input"
                     maxLength={20}
                   />
-                  <button 
-                    type="button" 
+                  <button
+                    type="button"
                     onClick={agregarEtiqueta}
-                    className="add-tag-btn"
+                    className="crearart-add-tag-btn"
                     disabled={!nuevaEtiqueta.trim()}
                   >
                     <Plus size={16} />
                   </button>
                 </div>
-                
+
                 {etiquetas.length > 0 && (
-                  <div className="tags-list">
+                  <div className="crearart-tags-list">
                     {etiquetas.map((etiqueta, index) => (
-                      <span key={index} className="tag-item">
+                      <span key={index} className="crearart-tag-item">
                         #{etiqueta}
-                        <button 
-                          type="button" 
+                        <button
+                          type="button"
                           onClick={() => eliminarEtiqueta(etiqueta)}
-                          className="remove-tag-btn"
+                          className="crearart-remove-tag-btn"
                         >
                           <X size={12} />
                         </button>
@@ -391,56 +391,56 @@ const CrearArt: React.FC = () => {
             </div>
 
             {/* Columna derecha - Editor */}
-            <div className="form-right">
-              <div className="form-group">
-                <label className="form-label">Contenido del Artículo *</label>
+            <div className="crearart-form-right">
+              <div className="crearart-form-group">
+                <label className="crearart-form-label">Contenido del Artículo *</label>
 
-                <div className="editor-section">
-                  <div className="toolbar">
-                    <button 
-                      type="button" 
+                <div className="crearart-editor-section">
+                  <div className="crearart-toolbar">
+                    <button
+                      type="button"
                       onClick={() => editor?.chain().focus().toggleBold().run()}
-                      className={`toolbar-btn ${editor?.isActive('bold') ? 'active' : ''}`}
+                      className={`crearart-toolbar-btn ${editor?.isActive('bold') ? 'active' : ''}`}
                       title="Negrita"
                     >
                       <Bold size={16} />
                     </button>
-                    <button 
-                      type="button" 
+                    <button
+                      type="button"
                       onClick={() => editor?.chain().focus().toggleItalic().run()}
-                      className={`toolbar-btn ${editor?.isActive('italic') ? 'active' : ''}`}
+                      className={`crearart-toolbar-btn ${editor?.isActive('italic') ? 'active' : ''}`}
                       title="Cursiva"
                     >
                       <Italic size={16} />
                     </button>
-                    <button 
-                      type="button" 
+                    <button
+                      type="button"
                       onClick={() => editor?.chain().focus().toggleBulletList().run()}
-                      className={`toolbar-btn ${editor?.isActive('bulletList') ? 'active' : ''}`}
+                      className={`crearart-toolbar-btn ${editor?.isActive('bulletList') ? 'active' : ''}`}
                       title="Lista con viñetas"
                     >
                       <List size={16} />
                     </button>
-                    <button 
-                      type="button" 
+                    <button
+                      type="button"
                       onClick={() => editor?.chain().focus().toggleHeading({ level: 2 }).run()}
-                      className={`toolbar-btn ${editor?.isActive('heading', { level: 2 }) ? 'active' : ''}`}
+                      className={`crearart-toolbar-btn ${editor?.isActive('heading', { level: 2 }) ? 'active' : ''}`}
                       title="Encabezado"
                     >
                       <Heading2 size={16} />
                     </button>
                   </div>
 
-                  <div className="editor-container">
+                  <div className="crearart-editor-container">
                     <EditorContent editor={editor} />
                   </div>
                 </div>
               </div>
 
-              <div className="form-group">
-                <label className="form-label">Opciones de Publicación</label>
-                <div className="checkboxes">
-                  <label className="checkbox-label">
+              <div className="crearart-form-group">
+                <label className="crearart-form-label">Opciones de Publicación</label>
+                <div className="crearart-checkboxes">
+                  <label className="crearart-checkbox-label">
                     <input
                       type="checkbox"
                       checked={publicado}
@@ -451,7 +451,7 @@ const CrearArt: React.FC = () => {
                     />
                     <span>Publicar inmediatamente</span>
                   </label>
-                  <label className="checkbox-label">
+                  <label className="crearart-checkbox-label">
                     <input
                       type="checkbox"
                       checked={borrador}
@@ -467,16 +467,16 @@ const CrearArt: React.FC = () => {
             </div>
           </div>
 
-          <div className="form-actions">
-            <button 
-              type="button" 
+          <div className="crearart-form-actions">
+            <button
+              type="button"
               onClick={guardarBorrador}
-              className="btn-secondary"
+              className="crearart-btn-secondary"
               disabled={isLoading}
             >
               {isLoading ? (
                 <>
-                  <div className="spinner"></div>
+                  <div className="crearart-spinner"></div>
                   Guardando...
                 </>
               ) : (
@@ -486,24 +486,24 @@ const CrearArt: React.FC = () => {
                 </>
               )}
             </button>
-            
-            <button 
-              type="button" 
+
+            <button
+              type="button"
               onClick={limpiarFormulario}
-              className="btn-outline"
+              className="crearart-btn-outline"
               disabled={isLoading}
             >
               Limpiar
             </button>
-            
-            <button 
+
+            <button
               type="submit"
-              className="btn-primary"
+              className="crearart-btn-primary"
               disabled={isLoading}
             >
               {isLoading ? (
                 <>
-                  <div className="spinner"></div>
+                  <div className="crearart-spinner"></div>
                   Publicando...
                 </>
               ) : (

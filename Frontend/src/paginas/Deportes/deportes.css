@@ -134,14 +134,14 @@
 }
 
 /* Título noticia */
-.news-item-title {
+.news-title {
   margin: 8px 0 5px 0;
   font-size: 1.1rem;
   font-weight: 700;
 }
 
 /* Extracto noticia */
-.news-excerpt {
+.news-summary {
   font-size: 0.9rem;
   color: #666;
 }
@@ -288,14 +288,9 @@
   white-space: pre-line;
 }
 
-.come-saludable-images {
-  flex: 1;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 20px;
-}
+/* container rules for small image grids handled elsewhere */
 
-.come-saludable-image-card {
+.news-card {
   position: relative;
   border-radius: 12px;
   overflow: hidden;
@@ -305,13 +300,14 @@
   display: flex;
   flex-direction: column;
 }
-
-.come-saludable-image-card img {
+.news-image {
   width: 100%;
   height: 180px;
   object-fit: cover;
   border-radius: 12px 12px 0 0;
 }
+
+/* image rules for come-saludable use shared .news-image */
 
 .image-actions {
   display: flex;

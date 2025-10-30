@@ -51,6 +51,9 @@ export default function Login() {
       localStorage.setItem("user", JSON.stringify(usuarioConRol));
       localStorage.setItem("token", data.access_token);
 
+      // Forzar mostrar el banner de cookies después del login
+      localStorage.removeItem("cookie_consent_accepted");
+
       showAlert("Inicio de sesión exitoso", "success");
       navigate("/"); // Redirige al inicio
     } catch {

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import './Footer.css';
 // Importación de imágenes decorativas para el footer
 import s4 from "../assets/Img/s4.png";
@@ -34,6 +35,13 @@ const Footer: React.FC = () => {
               <a href="mailto:SN_52@SENA.com">SN_52@SENA.com</a>
               <span className="footer-sep">·</span>
               <a href="tel:1234567890">123-456-7890</a>
+            </div>
+            {/* Sección de Información */}
+            <div className="footer-info">
+              <h3>Información</h3>
+              <Link to="/terminos">Términos y Condiciones</Link>
+              <br />
+              <Link to="/privacidad">Política de Privacidad</Link>
             </div>
           </div>
         </div>

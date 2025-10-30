@@ -3,6 +3,9 @@ import { Heart, MessageCircle, Share2, Bookmark, Search } from "lucide-react";//
 import { Carousel } from 'antd';// Importación del componente Carousel de Ant Design para el carrusel
 import { getNoticiasCreadas, toggleLikeNoticia, toggleSaveNoticia, shareNoticia, getNoticiasPorCategoriaPrincipal } from "../../services/noticias";
 import type { Noticia } from "../../services/noticias";
+import SearchModal from "../../components/SearchModal";
+import getAllArticles from "../../data/allArticles";
+import { featuredNewsHome, noticiasRelevantes } from "../../data/staticNoticias";
 import "./home.css";// Importación del archivo de estilos CSS
 // Importación de imágenes decorativas para el footer
 import CommentsModal from "../../components/CommentsModal";
@@ -54,134 +57,7 @@ const iconosRedes = {
   youtube: "https://cdn-icons-png.flaticon.com/512/174/174883.png",
 };
 
-const featuredNewsHome = [
-  {
-    id: 1,
-    title: "Avances Tecnológicos en Educación",
-    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=1200&h=500&fit=crop",
-    category: "EDUCACIÓN"
-  },
-  {
-    id: 2,
-    title: "Innovación en Proyectos Culturales",
-    image: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=1200&h=500&fit=crop",
-    category: "CULTURA"
-  },
-  {
-    id: 3,
-    title: "Nuevos Descubrimientos Científicos",
-    image: "https://images.unsplash.com/photo-1532094349884-543bc11b234d?w=1200&h=500&fit=crop",
-    category: "CIENCIA"
-  }
-];
-
-// Array de objetos que contiene las noticias relevantes para mostrar en la sección principal
-const noticiasRelevantes = [
-  {
-    id: 1,
-    titulo: "Estudiantes del SENA crean aplicación innovadora",
-    descripcion: "Un grupo de aprendices del SENA desarrolló una app para mejorar la gestión de proyectos educativos.",
-    fecha: "2025-09-15",
-    autor: "Redacción SN-52",
-    imagen: "https://images.unsplash.com/photo-1517077304055-6e89abbf09b0?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=250&q=80",
-    categoria: "TECNOLOGÍA",
-    resumen: "Aprendices desarrollan aplicación educativa para optimizar proyectos.",
-    likes: 10,
-    comentarios: 3,
-    compartidos: 2,
-  },
-  {
-    id: 2,
-    titulo: "Nueva convocatoria de formación virtual",
-    descripcion: "El SENA abre inscripciones para más de 20 programas de formación técnica y tecnológica en modalidad virtual.",
-    fecha: "2025-09-14",
-    autor: "Comunicaciones SENA",
-    imagen: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=250&q=80",
-    categoria: "EDUCACIÓN",
-    resumen: "Convocatoria abierta para programas técnicos y tecnológicos virtuales.",
-    likes: 8,
-    comentarios: 5,
-    compartidos: 1,
-  },
-  {
-    id: 3,
-    titulo: "Aprendices destacan en competencias nacionales",
-    descripcion: "Delegación del SENA obtiene primeros lugares en la competencia de habilidades técnicas a nivel nacional.",
-    fecha: "2025-09-13",
-    autor: "Equipo SN-52",
-    imagen: "https://images.unsplash.com/photo-1511632765486-a01980e01a18?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=250&q=80",
-    categoria: "CULTURA",
-    resumen: "Aprendices logran primeros puestos en competencias de habilidades técnicas.",
-    likes: 15,
-    comentarios: 7,
-    compartidos: 4,
-  },
-  {
-    id: 4,
-    titulo: "SENA impulsa proyectos de investigación",
-    descripcion: "Se anunciaron nuevos apoyos para proyectos innovadores en tecnología, agroindustria y sostenibilidad.",
-    fecha: "2025-09-12",
-    autor: "Redacción SN-52",
-    imagen: "https://images.unsplash.com/photo-1559136555-9303baea8ebd?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=250&q=80",
-    categoria: "INNOVACIÓN",
-    resumen: "El SENA fortalece el impulso a proyectos de investigación aplicada.",
-    likes: 12,
-    comentarios: 4,
-    compartidos: 3,
-  },
-  {
-    id: 5,
-    titulo: "Alianza estratégica con empresas tecnológicas",
-    descripcion: "El SENA firmó convenios para fortalecer la empleabilidad de sus aprendices en el sector tecnológico.",
-    fecha: "2025-09-11",
-    autor: "Comunicaciones SENA",
-    imagen: "https://images.unsplash.com/photo-1560472354-b33ff0c44a43?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=250&q=80",
-    categoria: "TECNOLOGÍA",
-    resumen: "Se consolidan alianzas estratégicas para mejorar la empleabilidad.",
-    likes: 20,
-    comentarios: 6,
-    compartidos: 5,
-  },
-  {
-    id: 6,
-    titulo: "Feria de innovación en el SENA",
-    descripcion: "Aprendices de diferentes centros presentaron proyectos que aportan soluciones a problemáticas reales.",
-    fecha: "2025-09-10",
-    autor: "Equipo SN-52",
-    imagen: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=250&q=80",
-    categoria: "INNOVACIÓN",
-    resumen: "Se destacan proyectos innovadores en la feria nacional del SENA.",
-    likes: 18,
-    comentarios: 8,
-    compartidos: 6,
-  },
-  {
-    id: 7,
-    titulo: "Nuevas becas internacionales para aprendices",
-    descripcion: "El SENA anunció becas en alianza con instituciones educativas de Europa y América Latina.",
-    fecha: "2025-09-09",
-    autor: "Redacción SN-52",
-    imagen: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=250&q=80",
-    categoria: "EDUCACIÓN",
-    resumen: "Becas internacionales abiertas para aprendices en distintas áreas.",
-    likes: 9,
-    comentarios: 2,
-    compartidos: 1,
-  },
-  {
-    id: 8,
-    titulo: "Programas de bienestar para aprendices",
-    descripcion: "Se fortalecen iniciativas de deporte, cultura y salud para el bienestar integral de la comunidad SENA.",
-    fecha: "2025-09-08",
-    autor: "Comunicaciones SENA",
-    imagen: "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=250&q=80",
-    categoria: "BIENESTAR",
-    resumen: "Se impulsan actividades de bienestar integral para la comunidad SENA.",
-    likes: 14,
-    comentarios: 3,
-    compartidos: 2,
-  },
-];
+// Usamos `featuredNewsHome` y `noticiasRelevantes` importados desde `src/data/staticNoticias`
 
 // Definición del componente funcional Inicio usando React.FC
 export const Inicio: React.FC = () => {
@@ -189,6 +65,9 @@ export const Inicio: React.FC = () => {
   const [likedArticles, setLikedArticles] = useState<Set<number>>(new Set());
   const [savedArticles, setSavedArticles] = useState<Set<number>>(new Set());
   const [searchTerm, setSearchTerm] = useState("");
+  const [allArticles, setAllArticles] = useState<Noticia[]>([]);
+  const [searchResults, setSearchResults] = useState<Noticia[]>([]);
+  const [showSearchModal, setShowSearchModal] = useState(false);
   const [showCommentsModal, setShowCommentsModal] = useState(false);
   const [selectedNoticia, setSelectedNoticia] = useState<any>(null);
   const [noticiasCreadas, setNoticiasCreadas] = useState<Noticia[]>([]);
@@ -211,6 +90,10 @@ export const Inicio: React.FC = () => {
       setNoticiasBienestar(getNoticiasPorCategoriaPrincipal('bienestar'));
     };
 
+  // Cargar todas las noticias centralizadas (estáticas + creadas)
+  const all = getAllArticles();
+  setAllArticles(all);
+
     cargarNoticias();
 
     // Recargar noticias cuando cambie el localStorage (útil para desarrollo)
@@ -221,6 +104,28 @@ export const Inicio: React.FC = () => {
     window.addEventListener('storage', handleStorageChange);
     return () => window.removeEventListener('storage', handleStorageChange);
   }, []);
+
+  // Búsqueda en tiempo real con debounce
+  useEffect(() => {
+    const term = searchTerm.trim().toLowerCase();
+    if (!term) {
+      setSearchResults([]);
+      setShowSearchModal(false);
+      return;
+    }
+
+    const handler = setTimeout(() => {
+      const results = allArticles.filter(a => {
+        const fields = [a.titulo || '', a.contenidoTexto || '', a.categoria || '', a.contenido || ''];
+        return fields.some(f => f.toLowerCase().includes(term));
+      });
+
+      setSearchResults(results);
+      setShowSearchModal(true);
+    }, 300);
+
+    return () => clearTimeout(handler);
+  }, [searchTerm, allArticles]);
 
   // Función para manejar el like de un artículo
   const handleLike = (articleId: number) => {
@@ -285,7 +190,7 @@ export const Inicio: React.FC = () => {
         <aside className="sidebar-left">
           {/* Search */}
           <div className="sidebar-section">
-            <h3>Search</h3>
+            <h3>Buscador</h3>
             <div className="search-container">
               <Search className="search-icon" />
               <input
@@ -296,11 +201,12 @@ export const Inicio: React.FC = () => {
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
             </div>
+            {/* (antes había un panel estático aquí) */}
           </div>
 
-          {/* Featured Article */}
+          {/* Articulo destacado */}
           <div className="sidebar-section">
-            <h3>Featured Article</h3>
+            <h3>Articulo Destacado</h3>
             <div className="featured-preview">
               <img
                 src="https://images.unsplash.com/photo-1495020689067-958852a7765e?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
@@ -319,9 +225,9 @@ export const Inicio: React.FC = () => {
             </div>
           </div>
 
-          {/* Highlights */}
+          {/* Areas del Sena */}
           <div className="sidebar-section">
-            <h3>Highlights</h3>
+            <h3>Areas</h3>
             <div className="highlights-grid">
               {imagenesDestacadas.slice(0, 5).map((item, index) => (
                 <div key={index} className="highlight-circle">
@@ -334,7 +240,7 @@ export const Inicio: React.FC = () => {
 
           {/* Newsletter */}
           <div className="sidebar-section">
-            <h3>Newsletter Sign-Up</h3>
+            <h3>Boletin Informatico</h3>
             <div className="newsletter-content">
               <img
                 src="https://images.unsplash.com/photo-1557804506-669a67965ba0?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
@@ -353,15 +259,15 @@ export const Inicio: React.FC = () => {
             </div>
           </div>
 
-          {/* Popular Tags */}
+          {/* Etiquetas de populares de las noticias */}
           <div className="sidebar-section">
-            <h3>Popular Tags</h3>
+            <h3>Etiquetas Populares</h3>
             <div className="tags-container">
               <span className="tag">No hay etiquetas aún.</span>
             </div>
           </div>
 
-          {/* Networks */}
+          {/* REdes sociales */}
           <div className="sidebar-section">
             <h3>Redes</h3>
             <div className="networks-tags">
@@ -699,7 +605,7 @@ export const Inicio: React.FC = () => {
         <aside className="sidebar-right">
           {/* Últimas noticias */}
           <div className="sidebar-section">
-            <h3>Latest News</h3>
+            <h3>Ultimas Noticias</h3>
             <div className="latest-news">
               {imagenesDestacadas.map((item, index) => (
                 <div key={index} className="latest-item">
@@ -739,6 +645,14 @@ export const Inicio: React.FC = () => {
         </aside>
       </div>
 
+      {/* Modal de búsqueda (resultados en tiempo real) */}
+      <SearchModal
+        isOpen={showSearchModal}
+        onClose={() => setShowSearchModal(false)}
+        results={searchResults}
+        searchTerm={searchTerm}
+      />
+
       {/* Modal de comentarios */}
       {selectedNoticia && (
         <CommentsModal
@@ -756,3 +670,5 @@ export const Inicio: React.FC = () => {
 };
 
 export default Inicio;
+
+// Insertar modal de búsqueda dentro del componente:
